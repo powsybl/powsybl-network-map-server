@@ -7,7 +7,7 @@
 package com.powsybl.network.map.model;
 
 import lombok.Builder;
-import lombok.Data;
+import lombok.Getter;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -15,8 +15,8 @@ import java.util.List;
 /**
  * @author Geoffroy Jamgotchian <geoffroy.jamgotchian at rte-france.com>
  */
-@Data
 @Builder
+@Getter
 public class SubstationMapData {
 
     private String id;

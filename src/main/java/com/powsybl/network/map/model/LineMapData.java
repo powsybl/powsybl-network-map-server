@@ -7,13 +7,13 @@
 package com.powsybl.network.map.model;
 
 import lombok.Builder;
-import lombok.Data;
+import lombok.Getter;
 
 /**
  * @author Geoffroy Jamgotchian <geoffroy.jamgotchian at rte-france.com>
  */
-@Data
 @Builder
+@Getter
 public class LineMapData {
 
     private String id;
