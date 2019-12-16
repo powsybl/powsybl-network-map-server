@@ -9,11 +9,11 @@ package com.powsybl.network.map;
 import com.powsybl.network.map.model.LineMapData;
 import com.powsybl.network.map.model.SubstationMapData;
 import io.swagger.annotations.*;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 
-import javax.inject.Inject;
 import java.util.List;
 import java.util.UUID;
 
@@ -28,7 +28,7 @@ public class NetworkMapController {
 
     public static final String API_VERSION = "v1";
 
-    @Inject
+    @Autowired
     private NetworkMapService networkMapService;
 
     @GetMapping(value = "/substations/{networkUuid}", produces = MediaType.APPLICATION_JSON_VALUE)
