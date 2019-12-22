@@ -31,14 +31,14 @@ public class NetworkMapController {
     @Autowired
     private NetworkMapService networkMapService;
 
-    @GetMapping(value = "/substations/{networkUuid}", produces = MediaType.APPLICATION_JSON_VALUE)
+    @GetMapping(value = "/networks/{networkUuid}/substations", produces = MediaType.APPLICATION_JSON_VALUE)
     @ApiOperation(value = "Get substations description", response = List.class)
     @ApiResponses(value = {@ApiResponse(code = 200, message = "Substations description")})
     public @ResponseBody List<SubstationMapData> getSubstations(@ApiParam(value = "Network UUID") @PathVariable("networkUuid") UUID networkUuid) {
         return networkMapService.getSubstations(networkUuid);
     }
 
-    @GetMapping(value = "/lines/{networkUuid}", produces = MediaType.APPLICATION_JSON_VALUE)
+    @GetMapping(value = "/networks/{networkUuid}/lines", produces = MediaType.APPLICATION_JSON_VALUE)
     @ApiOperation(value = "Get lines description", response = List.class)
     @ApiResponses(value = {@ApiResponse(code = 200, message = "Lines description")})
     public @ResponseBody List<LineMapData> getLines(@ApiParam(value = "Network UUID") @PathVariable("networkUuid") UUID networkUuid) {

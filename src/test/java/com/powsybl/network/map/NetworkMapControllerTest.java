@@ -64,7 +64,7 @@ public class NetworkMapControllerTest {
 
     @Test
     public void shouldReturnSubstationsMapData() throws Exception {
-        mvc.perform(get("/v1/substations/{networkUuid}/", NETWORK_UUID))
+        mvc.perform(get("/v1/networks/{networkUuid}/substations/", NETWORK_UUID))
                 .andExpect(status().isOk())
                 .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
                 .andExpect(content().json(resourceToString("/substations-map-data.json")));
@@ -72,13 +72,13 @@ public class NetworkMapControllerTest {
 
     @Test
     public void shouldReturnAnErrorInsteadOfSubstationsMapData() throws Exception {
-        mvc.perform(get("/v1/substations/{networkUuid}/", NOT_FOUND_NETWORK_ID))
+        mvc.perform(get("/v1/networks/{networkUuid}/substations/", NOT_FOUND_NETWORK_ID))
                 .andExpect(status().isNoContent());
     }
 
     @Test
     public void shouldReturnLinesMapData() throws Exception {
-        mvc.perform(get("/v1/lines/{networkUuid}/", NETWORK_UUID))
+        mvc.perform(get("/v1/networks/{networkUuid}/lines/", NETWORK_UUID))
                 .andExpect(status().isOk())
                 .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
                 .andExpect(content().json(resourceToString("/lines-map-data.json")));
@@ -86,7 +86,7 @@ public class NetworkMapControllerTest {
 
     @Test
     public void shouldReturnAnErrorInsteadOfLinesMapData() throws Exception {
-        mvc.perform(get("/v1/lines/{networkUuid}/", NOT_FOUND_NETWORK_ID))
+        mvc.perform(get("/v1/networks/{networkUuid}/lines/", NOT_FOUND_NETWORK_ID))
                 .andExpect(status().isNoContent());
     }
 }
