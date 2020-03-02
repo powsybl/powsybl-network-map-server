@@ -46,6 +46,7 @@ class NetworkMapService {
 
     private static VoltageLevelMapData toMapData(VoltageLevel voltageLevel) {
         return VoltageLevelMapData.builder()
+                .name(voltageLevel.getName())
                 .id(voltageLevel.getId())
                 .nominalVoltage(voltageLevel.getNominalV())
                 .build();
@@ -53,6 +54,7 @@ class NetworkMapService {
 
     private static SubstationMapData toMapData(Substation substation) {
         return SubstationMapData.builder()
+                .name(substation.getName())
                 .id(substation.getId())
                 .voltageLevels(substation.getVoltageLevelStream().map(NetworkMapService::toMapData).collect(Collectors.toList()))
                 .build();
@@ -60,6 +62,7 @@ class NetworkMapService {
 
     private static LineMapData toMapData(Line line) {
         return LineMapData.builder()
+                .name(line.getName())
                 .id(line.getId())
                 .voltageLevelId1(line.getTerminal1().getVoltageLevel().getId())
                 .voltageLevelId2(line.getTerminal2().getVoltageLevel().getId())
