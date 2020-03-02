@@ -49,3 +49,10 @@ jobs:
           -Djib.to.image=docker.io/powsybl/network-map-server
           -Djib.to.auth.username=powsyblci
           -Djib.to.auth.password=${{ secrets.DOCKERHUB_TOKEN }}
+
+      - name: Broadcast update event
+        if: github.ref == 'refs/heads/master'
+        uses: geofjamg/broadcast-event@master
+        with:
+          token: ${{ secrets.REPO_ACCESS_TOKEN }}
+          event-type: network_map_server_updated
