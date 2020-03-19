@@ -21,5 +21,7 @@ public class SubstationMapData {
 
     private String id;
 
+    private String name;
+
     private List<VoltageLevelMapData> voltageLevels = new ArrayList<>();
 }

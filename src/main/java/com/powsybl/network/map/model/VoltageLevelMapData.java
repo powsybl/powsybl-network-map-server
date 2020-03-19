@@ -18,5 +18,7 @@ public class VoltageLevelMapData {
 
     private String id;
 
+    private String name;
+
     private double nominalVoltage;
 }
