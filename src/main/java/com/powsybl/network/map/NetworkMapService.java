@@ -7,10 +7,7 @@
 package com.powsybl.network.map;
 
 import com.powsybl.commons.PowsyblException;
-import com.powsybl.iidm.network.Line;
-import com.powsybl.iidm.network.Network;
-import com.powsybl.iidm.network.Substation;
-import com.powsybl.iidm.network.VoltageLevel;
+import com.powsybl.iidm.network.*;
 import com.powsybl.network.map.model.LineMapData;
 import com.powsybl.network.map.model.SubstationMapData;
 import com.powsybl.network.map.model.VoltageLevelMapData;
@@ -40,7 +37,7 @@ class NetworkMapService {
         try {
             return networkStoreService.getNetwork(networkUuid, PreloadingStrategy.COLLECTION);
         } catch (PowsyblException e) {
-            throw new ResponseStatusException(HttpStatus.NO_CONTENT, "Network '" + networkUuid + "' not found");
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Network '" + networkUuid + "' not found");
         }
     }
 
@@ -56,6 +53,7 @@ class NetworkMapService {
         return SubstationMapData.builder()
                 .name(substation.getName())
                 .id(substation.getId())
+                .countryName(substation.getCountry().map(Country::getName).orElse(null))
                 .voltageLevels(substation.getVoltageLevelStream().map(NetworkMapService::toMapData).collect(Collectors.toList()))
                 .build();
     }

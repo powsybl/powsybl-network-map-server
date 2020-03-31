@@ -6,10 +6,10 @@
  */
 package com.powsybl.network.map.model;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.Builder;
 import lombok.Getter;
 
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -23,5 +23,8 @@ public class SubstationMapData {
 
     private String name;
 
-    private List<VoltageLevelMapData> voltageLevels = new ArrayList<>();
+    @JsonInclude(JsonInclude.Include.NON_NULL)
+    private String countryName;
+
+    private List<VoltageLevelMapData> voltageLevels;
 }

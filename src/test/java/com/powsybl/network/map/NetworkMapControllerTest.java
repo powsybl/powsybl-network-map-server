@@ -8,6 +8,7 @@ package com.powsybl.network.map;
 
 import com.google.common.io.ByteStreams;
 import com.powsybl.commons.PowsyblException;
+import com.powsybl.iidm.network.Network;
 import com.powsybl.iidm.network.test.EurostagTutorialExample1Factory;
 import com.powsybl.network.store.client.NetworkStoreService;
 import com.powsybl.network.store.client.PreloadingStrategy;
@@ -54,7 +55,9 @@ public class NetworkMapControllerTest {
     public void setUp() {
         MockitoAnnotations.initMocks(this);
 
-        given(networkStoreService.getNetwork(NETWORK_UUID, PreloadingStrategy.COLLECTION)).willReturn(EurostagTutorialExample1Factory.create());
+        Network network = EurostagTutorialExample1Factory.create();
+        network.getSubstation("P2").setCountry(null);
+        given(networkStoreService.getNetwork(NETWORK_UUID, PreloadingStrategy.COLLECTION)).willReturn(network);
         given(networkStoreService.getNetwork(NOT_FOUND_NETWORK_ID, PreloadingStrategy.COLLECTION)).willThrow(new PowsyblException("Network " + NOT_FOUND_NETWORK_ID + " not found"));
     }
 
@@ -67,13 +70,13 @@ public class NetworkMapControllerTest {
         mvc.perform(get("/v1/substations/{networkUuid}/", NETWORK_UUID))
                 .andExpect(status().isOk())
                 .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
-                .andExpect(content().json(resourceToString("/substations-map-data.json")));
+                .andExpect(content().json(resourceToString("/substations-map-data.json"), true));
     }
 
     @Test
     public void shouldReturnAnErrorInsteadOfSubstationsMapData() throws Exception {
         mvc.perform(get("/v1/substations/{networkUuid}/", NOT_FOUND_NETWORK_ID))
-                .andExpect(status().isNoContent());
+                .andExpect(status().isNotFound());
     }
 
     @Test
@@ -81,12 +84,12 @@ public class NetworkMapControllerTest {
         mvc.perform(get("/v1/lines/{networkUuid}/", NETWORK_UUID))
                 .andExpect(status().isOk())
                 .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
-                .andExpect(content().json(resourceToString("/lines-map-data.json")));
+                .andExpect(content().json(resourceToString("/lines-map-data.json"), true));
     }
 
     @Test
     public void shouldReturnAnErrorInsteadOfLinesMapData() throws Exception {
         mvc.perform(get("/v1/lines/{networkUuid}/", NOT_FOUND_NETWORK_ID))
-                .andExpect(status().isNoContent());
+                .andExpect(status().isNotFound());
     }
 }
