@@ -1,26 +1,33 @@
 [
   {
     "id": "P1",
+    "name": "P1",
+    "countryName": "FRANCE",
     "voltageLevels": [
       {
         "id": "VLGEN",
+        "name": "VLGEN",
         "nominalVoltage": 24.0
       },
       {
         "id": "VLHV1",
+        "name": "VLHV1",
         "nominalVoltage": 380.0
       }
     ]
   },
   {
     "id": "P2",
+    "name": "P2",
     "voltageLevels": [
       {
         "id": "VLHV2",
+        "name": "VLHV2",
         "nominalVoltage": 380.0
       },
       {
         "id": "VLLOAD",
+        "name": "VLLOAD",
         "nominalVoltage": 150.0
       }
     ]
