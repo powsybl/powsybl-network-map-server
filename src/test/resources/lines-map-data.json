@@ -1,11 +1,13 @@
 [
   {
     "id": "NHV1_NHV2_1",
+    "name": "NHV1_NHV2_1",
     "voltageLevelId1": "VLHV1",
     "voltageLevelId2": "VLHV2"
   },
   {
     "id": "NHV1_NHV2_2",
+    "name": "NHV1_NHV2_2",
     "voltageLevelId1": "VLHV1",
     "voltageLevelId2": "VLHV2"
   }
