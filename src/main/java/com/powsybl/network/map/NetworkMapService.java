@@ -37,7 +37,7 @@ class NetworkMapService {
         try {
             return networkStoreService.getNetwork(networkUuid, PreloadingStrategy.COLLECTION);
         } catch (PowsyblException e) {
-            throw new ResponseStatusException(HttpStatus.NO_CONTENT, "Network '" + networkUuid + "' not found");
+            throw new ResponseStatusException(HttpStatus.NOT_FOUND, "Network '" + networkUuid + "' not found");
         }
     }
 

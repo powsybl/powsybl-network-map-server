@@ -76,7 +76,7 @@ public class NetworkMapControllerTest {
     @Test
     public void shouldReturnAnErrorInsteadOfSubstationsMapData() throws Exception {
         mvc.perform(get("/v1/substations/{networkUuid}/", NOT_FOUND_NETWORK_ID))
-                .andExpect(status().isNoContent());
+                .andExpect(status().isNotFound());
     }
 
     @Test
@@ -90,6 +90,6 @@ public class NetworkMapControllerTest {
     @Test
     public void shouldReturnAnErrorInsteadOfLinesMapData() throws Exception {
         mvc.perform(get("/v1/lines/{networkUuid}/", NOT_FOUND_NETWORK_ID))
-                .andExpect(status().isNoContent());
+                .andExpect(status().isNotFound());
     }
 }
