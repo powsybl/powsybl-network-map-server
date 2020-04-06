@@ -8,6 +8,7 @@ package com.powsybl.network.map;
 
 import com.google.common.io.ByteStreams;
 import com.powsybl.commons.PowsyblException;
+import com.powsybl.iidm.network.Line;
 import com.powsybl.iidm.network.Network;
 import com.powsybl.iidm.network.test.EurostagTutorialExample1Factory;
 import com.powsybl.network.store.client.NetworkStoreService;
@@ -56,6 +57,11 @@ public class NetworkMapControllerTest {
         MockitoAnnotations.initMocks(this);
 
         Network network = EurostagTutorialExample1Factory.create();
+        Line l1 = network.getLine("NHV1_NHV2_1");
+        l1.getTerminal1().setP(1.1)
+                .setQ(2.2);
+        l1.getTerminal2().setP(3.33)
+                .setQ(4.44);
         network.getSubstation("P2").setCountry(null);
         given(networkStoreService.getNetwork(NETWORK_UUID, PreloadingStrategy.COLLECTION)).willReturn(network);
         given(networkStoreService.getNetwork(NOT_FOUND_NETWORK_ID, PreloadingStrategy.COLLECTION)).willThrow(new PowsyblException("Network " + NOT_FOUND_NETWORK_ID + " not found"));
