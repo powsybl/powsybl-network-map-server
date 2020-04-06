@@ -6,6 +6,7 @@
  */
 package com.powsybl.network.map.model;
 
+import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.Builder;
 import lombok.Getter;
 
@@ -23,4 +24,16 @@ public class LineMapData {
     private String voltageLevelId2;
 
     private String name;
+
+    @JsonInclude(JsonInclude.Include.NON_NULL)
+    private Integer p1;
+
+    @JsonInclude(JsonInclude.Include.NON_NULL)
+    private Integer q1;
+
+    @JsonInclude(JsonInclude.Include.NON_NULL)
+    private Integer p2;
+
+    @JsonInclude(JsonInclude.Include.NON_NULL)
+    private Integer q2;
 }

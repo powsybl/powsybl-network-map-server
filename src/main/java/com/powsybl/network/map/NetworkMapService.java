@@ -59,12 +59,26 @@ class NetworkMapService {
     }
 
     private static LineMapData toMapData(Line line) {
-        return LineMapData.builder()
+        Terminal terminal1 = line.getTerminal1();
+        Terminal terminal2 = line.getTerminal2();
+        LineMapData.LineMapDataBuilder builder = LineMapData.builder()
                 .name(line.getName())
                 .id(line.getId())
-                .voltageLevelId1(line.getTerminal1().getVoltageLevel().getId())
-                .voltageLevelId2(line.getTerminal2().getVoltageLevel().getId())
-                .build();
+                .voltageLevelId1(terminal1.getVoltageLevel().getId())
+                .voltageLevelId2(terminal2.getVoltageLevel().getId());
+        if (!Double.isNaN(terminal1.getP())) {
+            builder.p1((int) Math.round(terminal1.getP()));
+        }
+        if (!Double.isNaN(terminal1.getQ())) {
+            builder.q1((int) Math.round(terminal1.getQ()));
+        }
+        if (!Double.isNaN(terminal2.getP())) {
+            builder.p2((int) Math.round(terminal2.getP()));
+        }
+        if (!Double.isNaN(terminal2.getQ())) {
+            builder.q2((int) Math.round(terminal2.getQ()));
+        }
+        return builder.build();
     }
 
     public List<SubstationMapData> getSubstations(UUID networkUuid) {
