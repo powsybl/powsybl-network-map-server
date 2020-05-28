@@ -12,6 +12,7 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 /**
  * @author Geoffroy Jamgotchian <geoffroy.jamgotchian at rte-france.com>
  */
+@SuppressWarnings("checkstyle:HideUtilityClassConstructor")
 @SpringBootApplication
 public class NetworkMapApplication {
 
