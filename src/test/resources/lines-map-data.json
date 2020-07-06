@@ -4,6 +4,8 @@
     "name": "NHV1_NHV2_1",
     "voltageLevelId1": "VLHV1",
     "voltageLevelId2": "VLHV2",
+    "isTerminal1Connected": true,
+    "isTerminal2Connected": true,
     "p1": 1,
     "q1": 2,
     "p2": 3,
@@ -13,6 +15,8 @@
     "id": "NHV1_NHV2_2",
     "name": "NHV1_NHV2_2",
     "voltageLevelId1": "VLHV1",
-    "voltageLevelId2": "VLHV2"
+    "voltageLevelId2": "VLHV2",
+    "isTerminal1Connected": true,
+    "isTerminal2Connected": true
   }
 ]
