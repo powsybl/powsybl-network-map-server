@@ -64,6 +64,8 @@ class NetworkMapService {
         LineMapData.LineMapDataBuilder builder = LineMapData.builder()
                 .name(line.getName())
                 .id(line.getId())
+                .terminal1Connected(terminal1.isConnected())
+                .terminal2Connected(terminal2.isConnected())
                 .voltageLevelId1(terminal1.getVoltageLevel().getId())
                 .voltageLevelId2(terminal2.getVoltageLevel().getId());
         if (!Double.isNaN(terminal1.getP())) {

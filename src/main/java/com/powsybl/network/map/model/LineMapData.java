@@ -25,6 +25,10 @@ public class LineMapData {
 
     private String name;
 
+    private Boolean terminal1Connected;
+
+    private Boolean terminal2Connected;
+
     @JsonInclude(JsonInclude.Include.NON_NULL)
     private Integer p1;
 
