@@ -62,6 +62,8 @@ public class NetworkMapControllerTest {
                 .setQ(2.2);
         l1.getTerminal2().setP(3.33)
                 .setQ(4.44);
+        l1.newCurrentLimits1().setPermanentLimit(700.4).add();
+        l1.newCurrentLimits2().setPermanentLimit(800.8).add();
         network.getSubstation("P2").setCountry(null);
         given(networkStoreService.getNetwork(NETWORK_UUID, PreloadingStrategy.COLLECTION)).willReturn(network);
         given(networkStoreService.getNetwork(NOT_FOUND_NETWORK_ID, PreloadingStrategy.COLLECTION)).willThrow(new PowsyblException("Network " + NOT_FOUND_NETWORK_ID + " not found"));
