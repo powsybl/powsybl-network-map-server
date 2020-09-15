@@ -9,7 +9,9 @@
     "p1": 1,
     "q1": 2,
     "p2": 3,
-    "q2": 4
+    "q2": 4,
+    "permanentLimit1": 700,
+    "permanentLimit2": 801
   },
   {
     "id": "NHV1_NHV2_2",

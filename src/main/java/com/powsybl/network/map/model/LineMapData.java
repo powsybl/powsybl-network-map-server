@@ -12,6 +12,7 @@ import lombok.Getter;
 
 /**
  * @author Geoffroy Jamgotchian <geoffroy.jamgotchian at rte-france.com>
+ * @author Franck Lecuyer <franck.lecuyer at rte-france.com>
  */
 @Builder
 @Getter
@@ -40,4 +41,16 @@ public class LineMapData {
 
     @JsonInclude(JsonInclude.Include.NON_NULL)
     private Integer q2;
+
+    @JsonInclude(JsonInclude.Include.NON_NULL)
+    private Integer i1;
+
+    @JsonInclude(JsonInclude.Include.NON_NULL)
+    private Integer i2;
+
+    @JsonInclude(JsonInclude.Include.NON_NULL)
+    private Integer permanentLimit1;
+
+    @JsonInclude(JsonInclude.Include.NON_NULL)
+    private Integer permanentLimit2;
 }
