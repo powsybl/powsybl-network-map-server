@@ -4,13 +4,13 @@
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
-package com.powsybl.network.map;
+package org.gridsuite.network.map;
 
 import com.powsybl.commons.PowsyblException;
 import com.powsybl.iidm.network.*;
-import com.powsybl.network.map.model.LineMapData;
-import com.powsybl.network.map.model.SubstationMapData;
-import com.powsybl.network.map.model.VoltageLevelMapData;
+import org.gridsuite.network.map.model.LineMapData;
+import org.gridsuite.network.map.model.SubstationMapData;
+import org.gridsuite.network.map.model.VoltageLevelMapData;
 import com.powsybl.network.store.client.NetworkStoreService;
 import com.powsybl.network.store.client.PreloadingStrategy;
 import org.springframework.beans.factory.annotation.Autowired;
