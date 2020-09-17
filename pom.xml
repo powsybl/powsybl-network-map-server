@@ -35,9 +35,9 @@
     </licenses>
 
     <scm>
-        <connection>scm:git:https://github.com/gridsuite/gridsuite-network-map-server.git</connection>
-        <developerConnection>scm:git:https://github.com/gridsuite/gridsuite-network-map-server.git</developerConnection>
-        <url>https://github.com/gridsuite/gridsuite-network-map-server</url>
+        <connection>scm:git:https://github.com/gridsuite/network-map-server.git</connection>
+        <developerConnection>scm:git:https://github.com/gridsuite/network-map-server.git</developerConnection>
+        <url>https://github.com/gridsuite/network-map-server</url>
     </scm>
 
     <developers>
