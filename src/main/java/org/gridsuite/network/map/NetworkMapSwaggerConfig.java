@@ -4,7 +4,7 @@
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
  */
-package com.powsybl.network.map;
+package org.gridsuite.network.map;
 
 import com.google.common.base.Predicate;
 import com.google.common.base.Predicates;
