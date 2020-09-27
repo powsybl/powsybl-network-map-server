@@ -9,20 +9,14 @@ package org.gridsuite.network.map.model;
 import lombok.Builder;
 import lombok.Getter;
 
-import java.util.List;
-
 /**
  * @author Geoffroy Jamgotchian <geoffroy.jamgotchian at rte-france.com>
  */
 @Builder
 @Getter
-public class VoltageLevelMapData {
+public class BusMapData {
 
     private String id;
 
-    private String name;
-
-    private double nominalVoltage;
-
-    private List<BusMapData> buses;
+    private double v;
 }
