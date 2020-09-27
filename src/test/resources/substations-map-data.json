@@ -7,12 +7,24 @@
       {
         "id": "VLGEN",
         "name": "VLGEN",
-        "nominalVoltage": 24.0
+        "nominalVoltage": 24.0,
+        "buses": [
+          {
+            "id": "VLGEN_0",
+            "v": 0.0
+          }
+        ]
       },
       {
         "id": "VLHV1",
         "name": "VLHV1",
-        "nominalVoltage": 380.0
+        "nominalVoltage": 380.0,
+        "buses": [
+          {
+            "id": "VLHV1_0",
+            "v": 0.0
+          }
+        ]
       }
     ]
   },
@@ -23,12 +35,24 @@
       {
         "id": "VLHV2",
         "name": "VLHV2",
-        "nominalVoltage": 380.0
+        "nominalVoltage": 380.0,
+        "buses": [
+          {
+            "id": "VLHV2_0",
+            "v": 0.0
+          }
+        ]
       },
       {
         "id": "VLLOAD",
         "name": "VLLOAD",
-        "nominalVoltage": 150.0
+        "nominalVoltage": 150.0,
+        "buses": [
+          {
+            "id": "VLLOAD_0",
+            "v": 0.0
+          }
+        ]
       }
     ]
   }

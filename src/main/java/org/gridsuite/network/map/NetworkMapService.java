@@ -8,6 +8,7 @@ package org.gridsuite.network.map;
 
 import com.powsybl.commons.PowsyblException;
 import com.powsybl.iidm.network.*;
+import org.gridsuite.network.map.model.BusMapData;
 import org.gridsuite.network.map.model.LineMapData;
 import org.gridsuite.network.map.model.SubstationMapData;
 import org.gridsuite.network.map.model.VoltageLevelMapData;
@@ -43,16 +44,26 @@ class NetworkMapService {
 
     private static VoltageLevelMapData toMapData(VoltageLevel voltageLevel) {
         return VoltageLevelMapData.builder()
-                .name(voltageLevel.getName())
+                .name(voltageLevel.getNameOrId())
                 .id(voltageLevel.getId())
                 .nominalVoltage(voltageLevel.getNominalV())
+                .buses(voltageLevel.getBusView().getBusStream().map(NetworkMapService::toBusData).collect(Collectors.toList()))
                 .build();
+    }
+
+    private static BusMapData toBusData(Bus bus) {
+        BusMapData.BusMapDataBuilder builder = BusMapData.builder()
+                .id(bus.getId());
+        if (!Double.isNaN(bus.getV())) {
+            builder.v(bus.getV());
+        }
+        return builder.build();
     }
 
     private static SubstationMapData toMapData(Substation substation) {
         return SubstationMapData.builder()
-                .name(substation.getName())
                 .id(substation.getId())
+                .name(substation.getNameOrId())
                 .countryName(substation.getCountry().map(Country::getName).orElse(null))
                 .voltageLevels(substation.getVoltageLevelStream().map(NetworkMapService::toMapData).collect(Collectors.toList()))
                 .build();
@@ -62,8 +73,8 @@ class NetworkMapService {
         Terminal terminal1 = line.getTerminal1();
         Terminal terminal2 = line.getTerminal2();
         LineMapData.LineMapDataBuilder builder = LineMapData.builder()
-                .name(line.getName())
                 .id(line.getId())
+                .name(line.getNameOrId())
                 .terminal1Connected(terminal1.isConnected())
                 .terminal2Connected(terminal2.isConnected())
                 .voltageLevelId1(terminal1.getVoltageLevel().getId())
