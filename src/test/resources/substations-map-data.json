@@ -13,6 +13,11 @@
         "id": "VLHV1",
         "name": "VLHV1",
         "nominalVoltage": 380.0
+      },
+      {
+        "id": "VLNEW2",
+        "name": "VLNEW2",
+        "nominalVoltage": 225.0
       }
     ]
   },
