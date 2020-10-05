@@ -31,26 +31,26 @@ public class LineMapData {
     private Boolean terminal2Connected;
 
     @JsonInclude(JsonInclude.Include.NON_NULL)
-    private Integer p1;
+    private Double p1;
 
     @JsonInclude(JsonInclude.Include.NON_NULL)
-    private Integer q1;
+    private Double q1;
 
     @JsonInclude(JsonInclude.Include.NON_NULL)
-    private Integer p2;
+    private Double p2;
 
     @JsonInclude(JsonInclude.Include.NON_NULL)
-    private Integer q2;
+    private Double q2;
 
     @JsonInclude(JsonInclude.Include.NON_NULL)
-    private Integer i1;
+    private Double i1;
 
     @JsonInclude(JsonInclude.Include.NON_NULL)
-    private Integer i2;
+    private Double i2;
 
     @JsonInclude(JsonInclude.Include.NON_NULL)
-    private Integer permanentLimit1;
+    private Double permanentLimit1;
 
     @JsonInclude(JsonInclude.Include.NON_NULL)
-    private Integer permanentLimit2;
+    private Double permanentLimit2;
 }
