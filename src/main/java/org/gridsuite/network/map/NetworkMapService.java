@@ -73,31 +73,31 @@ class NetworkMapService {
                 .voltageLevelId1(terminal1.getVoltageLevel().getId())
                 .voltageLevelId2(terminal2.getVoltageLevel().getId());
         if (!Double.isNaN(terminal1.getP())) {
-            builder.p1((int) Math.round(terminal1.getP()));
+            builder.p1(terminal1.getP());
         }
         if (!Double.isNaN(terminal1.getQ())) {
-            builder.q1((int) Math.round(terminal1.getQ()));
+            builder.q1(terminal1.getQ());
         }
         if (!Double.isNaN(terminal2.getP())) {
-            builder.p2((int) Math.round(terminal2.getP()));
+            builder.p2(terminal2.getP());
         }
         if (!Double.isNaN(terminal2.getQ())) {
-            builder.q2((int) Math.round(terminal2.getQ()));
+            builder.q2(terminal2.getQ());
         }
         if (!Double.isNaN(terminal1.getI())) {
-            builder.i1((int) Math.round(terminal1.getI()));
+            builder.i1(terminal1.getI());
         }
         if (!Double.isNaN(terminal2.getI())) {
-            builder.i2((int) Math.round(terminal2.getI()));
+            builder.i2(terminal2.getI());
         }
         CurrentLimits limits1 = line.getCurrentLimits1();
         CurrentLimits limits2 = line.getCurrentLimits2();
 
         if (limits1 != null && !Double.isNaN(limits1.getPermanentLimit())) {
-            builder.permanentLimit1((int) Math.round(limits1.getPermanentLimit()));
+            builder.permanentLimit1(limits1.getPermanentLimit());
         }
         if (limits2 != null && !Double.isNaN(limits2.getPermanentLimit())) {
-            builder.permanentLimit2((int) Math.round(limits2.getPermanentLimit()));
+            builder.permanentLimit2(limits2.getPermanentLimit());
         }
         return builder.build();
     }
