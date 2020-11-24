@@ -251,28 +251,42 @@ class NetworkMapService {
         return builder.build();
     }
 
-    public List<SubstationMapData> getSubstations(UUID networkUuid) {
+    public List<SubstationMapData> getSubstations(UUID networkUuid, List<String> substationsId) {
         Network network = getNetwork(networkUuid);
-        return network.getSubstationStream().map(NetworkMapService::toMapData).collect(Collectors.toList());
+        return network.getSubstationStream()
+                .filter(s -> substationsId == null || substationsId.contains(s.getId()))
+                .map(NetworkMapService::toMapData).collect(Collectors.toList());
     }
 
-    public List<LineMapData> getLines(UUID networkUuid) {
+    public List<LineMapData> getLines(UUID networkUuid, List<String> substationsId) {
         Network network = getNetwork(networkUuid);
-        return network.getLineStream().map(NetworkMapService::toMapData).collect(Collectors.toList());
+        return network.getLineStream()
+                .filter(l -> substationsId == null || (substationsId.contains(l.getTerminal1().getVoltageLevel().getSubstation().getId())
+                        || substationsId.contains(l.getTerminal2().getVoltageLevel().getSubstation().getId())))
+                .map(NetworkMapService::toMapData).collect(Collectors.toList());
     }
 
-    public List<GeneratorMapData> getGenerators(UUID networkUuid) {
+    public List<GeneratorMapData> getGenerators(UUID networkUuid, List<String> substationsId) {
         Network network = getNetwork(networkUuid);
-        return network.getGeneratorStream().map(NetworkMapService::toMapData).collect(Collectors.toList());
+        return network.getGeneratorStream()
+                .filter(g -> substationsId == null || (substationsId.contains(g.getTerminal().getVoltageLevel().getSubstation().getId())))
+                .map(NetworkMapService::toMapData).collect(Collectors.toList());
     }
 
-    public List<TwoWindingsTransformerMapData> getTwoWindingsTransformers(UUID networkUuid) {
+    public List<TwoWindingsTransformerMapData> getTwoWindingsTransformers(UUID networkUuid, List<String> substationsId) {
         Network network = getNetwork(networkUuid);
-        return network.getTwoWindingsTransformerStream().map(NetworkMapService::toMapData).collect(Collectors.toList());
+        return network.getTwoWindingsTransformerStream()
+                .filter(t -> substationsId == null || (substationsId.contains(t.getTerminal1().getVoltageLevel().getSubstation().getId())
+                        || substationsId.contains(t.getTerminal2().getVoltageLevel().getSubstation().getId())))
+                .map(NetworkMapService::toMapData).collect(Collectors.toList());
     }
 
-    public List<ThreeWindingsTransformerMapData> getThreeWindingsTransformers(UUID networkUuid) {
+    public List<ThreeWindingsTransformerMapData> getThreeWindingsTransformers(UUID networkUuid, List<String> substationsId) {
         Network network = getNetwork(networkUuid);
-        return network.getThreeWindingsTransformerStream().map(NetworkMapService::toMapData).collect(Collectors.toList());
+        return network.getThreeWindingsTransformerStream()
+                .filter(t -> substationsId == null || (substationsId.contains(t.getLeg1().getTerminal().getVoltageLevel().getSubstation().getId())
+                        || substationsId.contains(t.getLeg2().getTerminal().getVoltageLevel().getSubstation().getId())
+                        || substationsId.contains(t.getLeg3().getTerminal().getVoltageLevel().getSubstation().getId())))
+                .map(NetworkMapService::toMapData).collect(Collectors.toList());
     }
 }

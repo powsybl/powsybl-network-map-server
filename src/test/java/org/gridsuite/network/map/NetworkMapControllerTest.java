@@ -8,6 +8,7 @@ package org.gridsuite.network.map;
 
 import com.google.common.io.ByteStreams;
 import com.powsybl.commons.PowsyblException;
+import com.powsybl.iidm.network.Country;
 import com.powsybl.iidm.network.Generator;
 import com.powsybl.iidm.network.Line;
 import com.powsybl.iidm.network.Network;
@@ -241,6 +242,36 @@ public class NetworkMapControllerTest {
                 .setPermanentLimit(54)
                 .add();
 
+        Substation p3 = network.newSubstation()
+                .setId("P3")
+                .setCountry(Country.FR)
+                .setTso("RTE")
+                .setGeographicalTags("A")
+                .add();
+        VoltageLevel vlgen3 = p3.newVoltageLevel()
+                .setId("VLGEN3")
+                .setNominalV(24.0)
+                .setTopologyKind(TopologyKind.BUS_BREAKER)
+            .add();
+        vlgen3.getBusBreakerView().newBus()
+                .setId("NGEN3")
+                .add();
+        network.newLine()
+                .setId("LINE3")
+                .setVoltageLevel1("VLGEN")
+                .setBus1("NGEN")
+                .setConnectableBus1("NGEN")
+                .setVoltageLevel2("VLGEN3")
+                .setBus2("NGEN3")
+                .setConnectableBus2("NGEN3")
+                .setR(3.0)
+                .setX(33.0)
+                .setG1(0.0)
+                .setB1(386E-6 / 2)
+                .setG2(0.0)
+                .setB2(386E-6 / 2)
+            .add();
+
         given(networkStoreService.getNetwork(NETWORK_UUID, PreloadingStrategy.COLLECTION)).willReturn(network);
         given(networkStoreService.getNetwork(NOT_FOUND_NETWORK_ID, PreloadingStrategy.COLLECTION)).willThrow(new PowsyblException("Network " + NOT_FOUND_NETWORK_ID + " not found"));
     }
@@ -259,7 +290,21 @@ public class NetworkMapControllerTest {
 
     @Test
     public void shouldReturnAnErrorInsteadOfSubstationsMapData() throws Exception {
-        mvc.perform(get("/v1/substations/{networkUuid}/", NOT_FOUND_NETWORK_ID))
+        mvc.perform(get("/v1/substations/{networkUuid}", NOT_FOUND_NETWORK_ID))
+                .andExpect(status().isNotFound());
+    }
+
+    @Test
+    public void shouldReturnSubstationsMapDataFromIds() throws Exception {
+        mvc.perform(get("/v1/substations/{networkUuid}?substationId=P1", NETWORK_UUID))
+                .andExpect(status().isOk())
+                .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
+                .andExpect(content().json(resourceToString("/partial-substations-map-data.json"), true));
+    }
+
+    @Test
+    public void shouldReturnAnErrorInsteadOfSubstationsMapDataFromIds() throws Exception {
+        mvc.perform(get("/v1/substations/{networkUuid}?substationId=P1&substationId=P2", NOT_FOUND_NETWORK_ID))
                 .andExpect(status().isNotFound());
     }
 
@@ -278,6 +323,20 @@ public class NetworkMapControllerTest {
     }
 
     @Test
+    public void shouldReturnLinesMapDataFromIds() throws Exception {
+        mvc.perform(get("/v1/lines/{networkUuid}?substationId=P3", NETWORK_UUID))
+                .andExpect(status().isOk())
+                .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
+                .andExpect(content().json(resourceToString("/partial-lines-map-data.json"), true));
+    }
+
+    @Test
+    public void shouldReturnAnErrorInsteadOfLinesMapDataFromIds() throws Exception {
+        mvc.perform(get("/v1/lines/{networkUuid}?substationId=P1", NOT_FOUND_NETWORK_ID))
+                .andExpect(status().isNotFound());
+    }
+
+    @Test
     public void shouldReturnGeneratorsMapData() throws Exception {
         mvc.perform(get("/v1/generators/{networkUuid}/", NETWORK_UUID))
                 .andExpect(status().isOk())
@@ -288,6 +347,20 @@ public class NetworkMapControllerTest {
     @Test
     public void shouldReturnAnErrorInsteadOfGeneratorsMapData() throws Exception {
         mvc.perform(get("/v1/generators/{networkUuid}/", NOT_FOUND_NETWORK_ID))
+                .andExpect(status().isNotFound());
+    }
+
+    @Test
+    public void shouldReturnGeneratorsMapDataFromIds() throws Exception {
+        mvc.perform(get("/v1/generators/{networkUuid}?substationId=P2", NETWORK_UUID))
+                .andExpect(status().isOk())
+                .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
+                .andExpect(content().json("[]", true));
+    }
+
+    @Test
+    public void shouldReturnAnErrorInsteadOfGeneratorsMapDataFromIds() throws Exception {
+        mvc.perform(get("/v1/generators/{networkUuid}?substationId=P1", NOT_FOUND_NETWORK_ID))
                 .andExpect(status().isNotFound());
     }
 
@@ -306,6 +379,20 @@ public class NetworkMapControllerTest {
     }
 
     @Test
+    public void shouldReturnTwoWindingsTransformersMapDataFromIds() throws Exception {
+        mvc.perform(get("/v1/2-windings-transformers/{networkUuid}?substationId=P1", NETWORK_UUID))
+                .andExpect(status().isOk())
+                .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
+                .andExpect(content().json(resourceToString("/partial-2-windings-transformers-map-data.json"), true));
+    }
+
+    @Test
+    public void shouldReturnAnErrorInsteadOfTwoWindingsTransformersMapDataFromIds() throws Exception {
+        mvc.perform(get("/v1/2-windings-transformers/{networkUuid}?substationId=P1", NOT_FOUND_NETWORK_ID))
+                .andExpect(status().isNotFound());
+    }
+
+    @Test
     public void shouldReturnThreeWindingsTransformersMapData() throws Exception {
         mvc.perform(get("/v1/3-windings-transformers/{networkUuid}/", NETWORK_UUID))
                 .andExpect(status().isOk())
@@ -316,6 +403,20 @@ public class NetworkMapControllerTest {
     @Test
     public void shouldReturnAnErrorInsteadOfThreeWindingsTransformersMapData() throws Exception {
         mvc.perform(get("/v1/3-windings-transformers/{networkUuid}/", NOT_FOUND_NETWORK_ID))
+                .andExpect(status().isNotFound());
+    }
+
+    @Test
+    public void shouldReturnThreeWindingsTransformersMapDataFromIds() throws Exception {
+        mvc.perform(get("/v1/3-windings-transformers/{networkUuid}?substationId=P3", NETWORK_UUID))
+                .andExpect(status().isOk())
+                .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
+                .andExpect(content().json("[]", true));
+    }
+
+    @Test
+    public void shouldReturnAnErrorInsteadOfThreeWindingsTransformersMapDataFromIds() throws Exception {
+        mvc.perform(get("/v1/3-windings-transformers/{networkUuid}?substationId=P1", NOT_FOUND_NETWORK_ID))
                 .andExpect(status().isNotFound());
     }
 }

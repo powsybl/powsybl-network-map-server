@@ -36,5 +36,17 @@
         "nominalVoltage": 150.0
       }
     ]
+  },
+  {
+    "id": "P3",
+    "name": "P3",
+    "countryName": "FRANCE",
+    "voltageLevels": [
+      {
+        "id": "VLGEN3",
+        "name": "VLGEN3",
+        "nominalVoltage": 24.0
+      }
+    ]
   }
 ]
