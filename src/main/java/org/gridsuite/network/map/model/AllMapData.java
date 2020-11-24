@@ -22,4 +22,12 @@ public class AllMapData {
     private List<TwoWindingsTransformerMapData> twoWindingsTransformers;
     private List<ThreeWindingsTransformerMapData> threeWindingsTransformers;
     private List<GeneratorMapData> generators;
+    private List<BatteryMapData> batteries;
+    private List<DanglingLineMapData> danglingLines;
+    private List<HvdcLineMapData> hvdcLines;
+    private List<LccConverterStationMapData> lccConverterStations;
+    private List<LoadMapData> loads;
+    private List<ShuntCompensatorMapData> shuntCompensators;
+    private List<StaticVarCompensatorMapData> staticVarCompensators;
+    private List<VscConverterStationMapData> vscConverterStations;
 }

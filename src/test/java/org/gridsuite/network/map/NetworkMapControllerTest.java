@@ -8,16 +8,23 @@ package org.gridsuite.network.map;
 
 import com.google.common.io.ByteStreams;
 import com.powsybl.commons.PowsyblException;
+import com.powsybl.iidm.network.Battery;
 import com.powsybl.iidm.network.Country;
+import com.powsybl.iidm.network.DanglingLine;
 import com.powsybl.iidm.network.Generator;
+import com.powsybl.iidm.network.HvdcLine;
+import com.powsybl.iidm.network.LccConverterStation;
 import com.powsybl.iidm.network.Line;
 import com.powsybl.iidm.network.Network;
 import com.powsybl.iidm.network.PhaseTapChanger;
+import com.powsybl.iidm.network.ShuntCompensator;
+import com.powsybl.iidm.network.StaticVarCompensator;
 import com.powsybl.iidm.network.Substation;
 import com.powsybl.iidm.network.ThreeWindingsTransformer;
 import com.powsybl.iidm.network.TopologyKind;
 import com.powsybl.iidm.network.TwoWindingsTransformer;
 import com.powsybl.iidm.network.VoltageLevel;
+import com.powsybl.iidm.network.VscConverterStation;
 import com.powsybl.iidm.network.test.EurostagTutorialExample1Factory;
 import com.powsybl.network.store.client.NetworkStoreService;
 import com.powsybl.network.store.client.PreloadingStrategy;
@@ -272,6 +279,174 @@ public class NetworkMapControllerTest {
                 .setB2(386E-6 / 2)
             .add();
 
+        Battery b1 = vlnew2.newBattery()
+                .setId("BATTERY1")
+                .setName("BATTERY1")
+                .setMinP(0)
+                .setMaxP(10)
+                .setP0(1)
+                .setQ0(1)
+                .setConnectableBus("NNEW2")
+                .add();
+        b1.getTerminal().setP(50);
+        b1.getTerminal().setQ(70);
+
+        vlgen3.newBattery()
+                .setId("BATTERY2")
+                .setName("BATTERY2")
+                .setMinP(0)
+                .setMaxP(10)
+                .setP0(1)
+                .setQ0(1)
+                .setConnectableBus("NGEN3")
+                .add();
+
+        VoltageLevel vl1 = network.getVoltageLevel("VLGEN");
+        DanglingLine dl = vl1.newDanglingLine()
+                .setId("DL1")
+                .setName("DL1")
+                .setR(1)
+                .setX(2)
+                .setB(3)
+                .setG(4)
+                .setP0(50)
+                .setQ0(30)
+                .setUcteXnodeCode("xnode1")
+                .setConnectableBus("NGEN")
+                .setBus("NGEN")
+                .add();
+        dl.getTerminal().setP(45);
+        dl.getTerminal().setQ(75);
+
+        vlgen3.newDanglingLine()
+                .setId("DL2")
+                .setName("DL2")
+                .setR(1)
+                .setX(2)
+                .setB(3)
+                .setG(4)
+                .setP0(50)
+                .setQ0(30)
+                .setUcteXnodeCode("xnode1")
+                .setConnectableBus("NGEN3")
+                .setBus("NGEN3")
+                .add();
+
+        VscConverterStation vsc1 = vlnew2.newVscConverterStation()
+                .setId("VSC1")
+                .setName("VSC1")
+                .setLossFactor(1)
+                .setReactivePowerSetpoint(40)
+                .setVoltageRegulatorOn(true)
+                .setVoltageSetpoint(150)
+                .setConnectableBus("NNEW2")
+                .setBus("NNEW2")
+                .add();
+        vsc1.getTerminal().setP(10);
+        vsc1.getTerminal().setQ(30);
+
+        vlgen3.newVscConverterStation()
+                .setId("VSC2")
+                .setName("VSC2")
+                .setLossFactor(1)
+                .setReactivePowerSetpoint(40)
+                .setVoltageRegulatorOn(true)
+                .setVoltageSetpoint(150)
+                .setConnectableBus("NGEN3")
+                .setBus("NGEN3")
+                .add();
+
+        vl1.newLccConverterStation()
+                .setId("LCC1")
+                .setName("LCC1")
+                .setLossFactor(1)
+                .setPowerFactor(0.5F)
+                .setConnectableBus("NGEN")
+                .setBus("NGEN")
+                .add();
+
+        LccConverterStation lcc2 = vlnew2.newLccConverterStation()
+                .setId("LCC2")
+                .setName("LCC2")
+                .setLossFactor(1)
+                .setPowerFactor(0.5F)
+                .setConnectableBus("NNEW2")
+                .setBus("NNEW2")
+                .add();
+        lcc2.getTerminal().setP(110);
+        lcc2.getTerminal().setQ(310);
+
+        network.newHvdcLine()
+                .setId("HVDC1")
+                .setName("HVDC1")
+                .setR(1)
+                .setMaxP(100)
+                .setConvertersMode(HvdcLine.ConvertersMode.SIDE_1_INVERTER_SIDE_2_RECTIFIER)
+                .setNominalV(225)
+                .setActivePowerSetpoint(500)
+                .setConverterStationId1("VSC1")
+                .setConverterStationId2("LCC2")
+                .add();
+
+        ShuntCompensator shunt1 = vlnew2.newShuntCompensator()
+                .setId("SHUNT1")
+                .setName("SHUNT1")
+                .newLinearModel()
+                .setMaximumSectionCount(3)
+                .setBPerSection(1)
+                .setGPerSection(2)
+                .add()
+                .setSectionCount(2)
+                .setTargetV(225)
+                .setVoltageRegulatorOn(true)
+                .setTargetDeadband(10)
+                .setConnectableBus("NNEW2")
+                .setBus("NNEW2")
+                .add();
+        shunt1.getTerminal().setQ(90);
+
+        vlgen3.newShuntCompensator()
+                .setId("SHUNT2")
+                .setName("SHUNT2")
+                .newLinearModel()
+                .setMaximumSectionCount(3)
+                .setBPerSection(1)
+                .setGPerSection(2)
+                .add()
+                .setSectionCount(2)
+                .setTargetV(225)
+                .setVoltageRegulatorOn(true)
+                .setTargetDeadband(10)
+                .setConnectableBus("NGEN3")
+                .setBus("NGEN3")
+                .add();
+
+        StaticVarCompensator svc1 = vl1.newStaticVarCompensator()
+                .setId("SVC1")
+                .setName("SVC1")
+                .setRegulationMode(StaticVarCompensator.RegulationMode.VOLTAGE)
+                .setVoltageSetpoint(200)
+                .setReactivePowerSetpoint(100)
+                .setBmin(2)
+                .setBmax(30)
+                .setConnectableBus("NGEN")
+                .setBus("NGEN")
+                .add();
+        svc1.getTerminal().setP(120);
+        svc1.getTerminal().setQ(43);
+
+        vlnew2.newStaticVarCompensator()
+                .setId("SVC2")
+                .setName("SVC2")
+                .setRegulationMode(StaticVarCompensator.RegulationMode.VOLTAGE)
+                .setVoltageSetpoint(200)
+                .setReactivePowerSetpoint(100)
+                .setBmin(2)
+                .setBmax(30)
+                .setConnectableBus("NNEW2")
+                .setBus("NNEW2")
+                .add();
+
         given(networkStoreService.getNetwork(NETWORK_UUID, PreloadingStrategy.COLLECTION)).willReturn(network);
         given(networkStoreService.getNetwork(NETWORK_UUID, PreloadingStrategy.NONE)).willReturn(network);
         given(networkStoreService.getNetwork(NOT_FOUND_NETWORK_ID, PreloadingStrategy.COLLECTION)).willThrow(new PowsyblException("Network " + NOT_FOUND_NETWORK_ID + " not found"));
@@ -438,7 +613,7 @@ public class NetworkMapControllerTest {
 
     @Test
     public void shouldReturnAllMapDataFromIds() throws Exception {
-        mvc.perform(get("/v1/all/{networkUuid}?substationId=P1", NETWORK_UUID))
+        mvc.perform(get("/v1/all/{networkUuid}?substationId=P3", NETWORK_UUID))
                 .andExpect(status().isOk())
                 .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
                 .andExpect(content().json(resourceToString("/partial-all-map-data.json"), true));
@@ -450,4 +625,227 @@ public class NetworkMapControllerTest {
                 .andExpect(status().isNotFound());
     }
 
+    @Test
+    public void shouldReturnBatteriesMapData() throws Exception {
+        mvc.perform(get("/v1/batteries/{networkUuid}/", NETWORK_UUID))
+                .andExpect(status().isOk())
+                .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
+                .andExpect(content().json(resourceToString("/batteries-map-data.json"), true));
+    }
+
+    @Test
+    public void shouldReturnAnErrorInsteadOfBatteriesMapData() throws Exception {
+        mvc.perform(get("/v1/batteries/{networkUuid}", NOT_FOUND_NETWORK_ID))
+                .andExpect(status().isNotFound());
+    }
+
+    @Test
+    public void shouldReturnBatteriesMapDataFromIds() throws Exception {
+        mvc.perform(get("/v1/batteries/{networkUuid}?substationId=P1", NETWORK_UUID))
+                .andExpect(status().isOk())
+                .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
+                .andExpect(content().json(resourceToString("/partial-batteries-map-data.json"), true));
+    }
+
+    @Test
+    public void shouldReturnAnErrorInsteadOfBatteriesMapDataFromIds() throws Exception {
+        mvc.perform(get("/v1/batteries/{networkUuid}?substationId=P1&substationId=P2", NOT_FOUND_NETWORK_ID))
+                .andExpect(status().isNotFound());
+    }
+
+    @Test
+    public void shouldReturnDanglingLinesMapData() throws Exception {
+        mvc.perform(get("/v1/dangling-lines/{networkUuid}/", NETWORK_UUID))
+                .andExpect(status().isOk())
+                .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
+                .andExpect(content().json(resourceToString("/dangling-lines-map-data.json"), true));
+    }
+
+    @Test
+    public void shouldReturnAnErrorInsteadOfDanglingLinesMapData() throws Exception {
+        mvc.perform(get("/v1/dangling-lines/{networkUuid}", NOT_FOUND_NETWORK_ID))
+                .andExpect(status().isNotFound());
+    }
+
+    @Test
+    public void shouldReturnDanglingLinesMapDataFromIds() throws Exception {
+        mvc.perform(get("/v1/dangling-lines/{networkUuid}?substationId=P2", NETWORK_UUID))
+                .andExpect(status().isOk())
+                .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
+                .andExpect(content().json("[]", true));
+    }
+
+    @Test
+    public void shouldReturnAnErrorInsteadOfDanglingLinesMapDataFromIds() throws Exception {
+        mvc.perform(get("/v1/dangling-lines/{networkUuid}?substationId=P1&substationId=P2", NOT_FOUND_NETWORK_ID))
+                .andExpect(status().isNotFound());
+    }
+
+    @Test
+    public void shouldReturnLoadsMapData() throws Exception {
+        mvc.perform(get("/v1/loads/{networkUuid}/", NETWORK_UUID))
+                .andExpect(status().isOk())
+                .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
+                .andExpect(content().json(resourceToString("/loads-map-data.json"), true));
+    }
+
+    @Test
+    public void shouldReturnAnErrorInsteadOfLoadsMapData() throws Exception {
+        mvc.perform(get("/v1/loads/{networkUuid}/", NOT_FOUND_NETWORK_ID))
+                .andExpect(status().isNotFound());
+    }
+
+    @Test
+    public void shouldReturnLoadsMapDataFromIds() throws Exception {
+        mvc.perform(get("/v1/loads/{networkUuid}?substationId=P2", NETWORK_UUID))
+                .andExpect(status().isOk())
+                .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
+                .andExpect(content().json(resourceToString("/partial-loads-map-data.json"), true));
+    }
+
+    @Test
+    public void shouldReturnAnErrorInsteadOfLoadsMapDataFromIds() throws Exception {
+        mvc.perform(get("/v1/loads/{networkUuid}?substationId=P1", NOT_FOUND_NETWORK_ID))
+                .andExpect(status().isNotFound());
+    }
+
+    @Test
+    public void shouldReturnShuntCompensatorsMapData() throws Exception {
+        mvc.perform(get("/v1/shunt-compensators/{networkUuid}/", NETWORK_UUID))
+                .andExpect(status().isOk())
+                .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
+                .andExpect(content().json(resourceToString("/shunt-compensators-map-data.json"), true));
+    }
+
+    @Test
+    public void shouldReturnAnErrorInsteadOfShuntCompensatorsMapData() throws Exception {
+        mvc.perform(get("/v1/shunt-compensators/{networkUuid}/", NOT_FOUND_NETWORK_ID))
+                .andExpect(status().isNotFound());
+    }
+
+    @Test
+    public void shouldReturnShuntCompensatorsMapDataFromIds() throws Exception {
+        mvc.perform(get("/v1/shunt-compensators/{networkUuid}?substationId=P1", NETWORK_UUID))
+                .andExpect(status().isOk())
+                .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
+                .andExpect(content().json(resourceToString("/partial-shunt-compensators-map-data.json"), true));
+    }
+
+    @Test
+    public void shouldReturnAnErrorInsteadOfShuntCompensatorsMapDataFromIds() throws Exception {
+        mvc.perform(get("/v1/shunt-compensators/{networkUuid}?substationId=P1", NOT_FOUND_NETWORK_ID))
+                .andExpect(status().isNotFound());
+    }
+
+    @Test
+    public void shouldReturnStaticVarCompensatorsMapData() throws Exception {
+        mvc.perform(get("/v1/static-var-compensators/{networkUuid}/", NETWORK_UUID))
+                .andExpect(status().isOk())
+                .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
+                .andExpect(content().json(resourceToString("/static-var-compensators-map-data.json"), true));
+    }
+
+    @Test
+    public void shouldReturnAnErrorInsteadOfStaticVarCompensatorsMapData() throws Exception {
+        mvc.perform(get("/v1/static-var-compensators/{networkUuid}/", NOT_FOUND_NETWORK_ID))
+                .andExpect(status().isNotFound());
+    }
+
+    @Test
+    public void shouldReturnStaticVarCompensatorsMapDataFromIds() throws Exception {
+        mvc.perform(get("/v1/static-var-compensators/{networkUuid}?substationId=P1", NETWORK_UUID))
+                .andExpect(status().isOk())
+                .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
+                .andExpect(content().json(resourceToString("/partial-static-var-compensators-map-data.json"), true));
+    }
+
+    @Test
+    public void shouldReturnAnErrorInsteadOfStaticVarCompensatorsMapDataFromIds() throws Exception {
+        mvc.perform(get("/v1/static-var-compensators/{networkUuid}?substationId=P1", NOT_FOUND_NETWORK_ID))
+                .andExpect(status().isNotFound());
+    }
+
+    @Test
+    public void shouldReturnLccConverterStationsMapData() throws Exception {
+        mvc.perform(get("/v1/lcc-converter-stations/{networkUuid}/", NETWORK_UUID))
+                .andExpect(status().isOk())
+                .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
+                .andExpect(content().json(resourceToString("/lcc-converter-stations-map-data.json"), true));
+    }
+
+    @Test
+    public void shouldReturnAnErrorInsteadOfLccConverterStationsMapData() throws Exception {
+        mvc.perform(get("/v1/lcc-converter-stations/{networkUuid}/", NOT_FOUND_NETWORK_ID))
+                .andExpect(status().isNotFound());
+    }
+
+    @Test
+    public void shouldReturnLccConverterStationsMapDataFromIds() throws Exception {
+        mvc.perform(get("/v1/lcc-converter-stations/{networkUuid}?substationId=P1", NETWORK_UUID))
+                .andExpect(status().isOk())
+                .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
+                .andExpect(content().json(resourceToString("/partial-lcc-converter-stations-map-data.json"), true));
+    }
+
+    @Test
+    public void shouldReturnAnErrorInsteadOfLccConverterStationsMapDataFromIds() throws Exception {
+        mvc.perform(get("/v1/lcc-converter-stations/{networkUuid}?substationId=P1", NOT_FOUND_NETWORK_ID))
+                .andExpect(status().isNotFound());
+    }
+
+    @Test
+    public void shouldReturnVscConverterStationsMapData() throws Exception {
+        mvc.perform(get("/v1/vsc-converter-stations/{networkUuid}/", NETWORK_UUID))
+                .andExpect(status().isOk())
+                .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
+                .andExpect(content().json(resourceToString("/vsc-converter-stations-map-data.json"), true));
+    }
+
+    @Test
+    public void shouldReturnAnErrorInsteadOfVscConverterStationsMapData() throws Exception {
+        mvc.perform(get("/v1/vsc-converter-stations/{networkUuid}/", NOT_FOUND_NETWORK_ID))
+                .andExpect(status().isNotFound());
+    }
+
+    @Test
+    public void shouldReturnVscConverterStationsMapDataFromIds() throws Exception {
+        mvc.perform(get("/v1/vsc-converter-stations/{networkUuid}?substationId=P1", NETWORK_UUID))
+                .andExpect(status().isOk())
+                .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
+                .andExpect(content().json(resourceToString("/partial-vsc-converter-stations-map-data.json"), true));
+    }
+
+    @Test
+    public void shouldReturnAnErrorInsteadOfVscConverterStationsMapDataFromIds() throws Exception {
+        mvc.perform(get("/v1/vsc-converter-stations/{networkUuid}?substationId=P1", NOT_FOUND_NETWORK_ID))
+                .andExpect(status().isNotFound());
+    }
+
+    @Test
+    public void shouldReturnHvdcLinesMapData() throws Exception {
+        mvc.perform(get("/v1/hvdc-lines/{networkUuid}/", NETWORK_UUID))
+                .andExpect(status().isOk())
+                .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
+                .andExpect(content().json(resourceToString("/hvdc-lines-map-data.json"), true));
+    }
+
+    @Test
+    public void shouldReturnAnErrorInsteadOfHvdcLinesMapData() throws Exception {
+        mvc.perform(get("/v1/hvdc-lines/{networkUuid}/", NOT_FOUND_NETWORK_ID))
+                .andExpect(status().isNotFound());
+    }
+
+    @Test
+    public void shouldReturnHvdcLinesMapDataFromIds() throws Exception {
+        mvc.perform(get("/v1/hvdc-lines/{networkUuid}?substationId=P3", NETWORK_UUID))
+                .andExpect(status().isOk())
+                .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
+                .andExpect(content().json("[]", true));
+    }
+
+    @Test
+    public void shouldReturnAnErrorInsteadOfHvdcLinesMapDataFromIds() throws Exception {
+        mvc.perform(get("/v1/hvdc-lines/{networkUuid}?substationId=P1", NOT_FOUND_NETWORK_ID))
+                .andExpect(status().isNotFound());
+    }
 }
