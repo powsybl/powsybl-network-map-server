@@ -8,6 +8,7 @@ package org.gridsuite.network.map;
 
 import com.powsybl.commons.PowsyblException;
 import com.powsybl.iidm.network.*;
+import org.gridsuite.network.map.model.AllMapData;
 import org.gridsuite.network.map.model.GeneratorMapData;
 import org.gridsuite.network.map.model.LineMapData;
 import org.gridsuite.network.map.model.SubstationMapData;
@@ -319,6 +320,44 @@ class NetworkMapService {
                     network.getSubstation(id).getVoltageLevelStream().forEach(v ->
                             v.getConnectables(ThreeWindingsTransformer.class).forEach(t -> res.add(toMapData(t)))));
             return res.stream().collect(Collectors.toList());
+        }
+    }
+
+    public AllMapData getAll(UUID networkUuid, List<String> substationsId) {
+        Network network = getNetwork(networkUuid, substationsId == null ? PreloadingStrategy.COLLECTION : PreloadingStrategy.NONE);
+
+        if (substationsId == null) {
+            return AllMapData.builder()
+                    .substations(network.getSubstationStream().map(NetworkMapService::toMapData).collect(Collectors.toList()))
+                    .lines(network.getLineStream().map(NetworkMapService::toMapData).collect(Collectors.toList()))
+                    .generators(network.getGeneratorStream().map(NetworkMapService::toMapData).collect(Collectors.toList()))
+                    .twoWindingsTransformers(network.getTwoWindingsTransformerStream().map(NetworkMapService::toMapData).collect(Collectors.toList()))
+                    .threeWindingsTransformers(network.getThreeWindingsTransformerStream().map(NetworkMapService::toMapData).collect(Collectors.toList()))
+                    .build();
+        } else {
+            Set<SubstationMapData> substationsMap = new HashSet<>();
+            Set<LineMapData> linesMap = new HashSet<>();
+            Set<GeneratorMapData> generatorsMap = new HashSet<>();
+            Set<TwoWindingsTransformerMapData> twoWindingsTransformerMap = new HashSet<>();
+            Set<ThreeWindingsTransformerMapData> threeWindingsTransformerMap = new HashSet<>();
+
+            substationsId.stream().forEach(id -> {
+                Substation substation = network.getSubstation(id);
+                substationsMap.add(toMapData(substation));
+                network.getSubstation(id).getVoltageLevelStream().forEach(v -> {
+                    v.getConnectables(Line.class).forEach(l -> linesMap.add(toMapData(l)));
+                    v.getConnectables(TwoWindingsTransformer.class).forEach(t -> twoWindingsTransformerMap.add(toMapData(t)));
+                    v.getConnectables(ThreeWindingsTransformer.class).forEach(t -> threeWindingsTransformerMap.add(toMapData(t)));
+                    v.getConnectables(Generator.class).forEach(g -> generatorsMap.add(toMapData(g)));
+                });
+            });
+            return AllMapData.builder()
+                    .substations(substationsMap.stream().collect(Collectors.toList()))
+                    .lines(linesMap.stream().collect(Collectors.toList()))
+                    .generators(generatorsMap.stream().collect(Collectors.toList()))
+                    .twoWindingsTransformers(twoWindingsTransformerMap.stream().collect(Collectors.toList()))
+                    .threeWindingsTransformers(threeWindingsTransformerMap.stream().collect(Collectors.toList()))
+                    .build();
         }
     }
 }

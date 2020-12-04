@@ -421,4 +421,33 @@ public class NetworkMapControllerTest {
         mvc.perform(get("/v1/3-windings-transformers/{networkUuid}?substationId=P1", NOT_FOUND_NETWORK_ID))
                 .andExpect(status().isNotFound());
     }
+
+    @Test
+    public void shouldReturnAllMapData() throws Exception {
+        mvc.perform(get("/v1/all/{networkUuid}/", NETWORK_UUID))
+                .andExpect(status().isOk())
+                .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
+                .andExpect(content().json(resourceToString("/all-map-data.json"), true));
+    }
+
+    @Test
+    public void shouldReturnAnErrorInsteadOfAllMapData() throws Exception {
+        mvc.perform(get("/v1/all/{networkUuid}/", NOT_FOUND_NETWORK_ID))
+                .andExpect(status().isNotFound());
+    }
+
+    @Test
+    public void shouldReturnAllMapDataFromIds() throws Exception {
+        mvc.perform(get("/v1/all/{networkUuid}?substationId=P1", NETWORK_UUID))
+                .andExpect(status().isOk())
+                .andExpect(content().contentTypeCompatibleWith(MediaType.APPLICATION_JSON))
+                .andExpect(content().json(resourceToString("/partial-all-map-data.json"), true));
+    }
+
+    @Test
+    public void shouldReturnAnErrorInsteadOfAllMapDataFromIds() throws Exception {
+        mvc.perform(get("/v1/all/{networkUuid}?substationId=P1", NOT_FOUND_NETWORK_ID))
+                .andExpect(status().isNotFound());
+    }
+
 }

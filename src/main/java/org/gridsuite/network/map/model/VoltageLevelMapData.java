@@ -7,6 +7,7 @@
 package org.gridsuite.network.map.model;
 
 import lombok.Builder;
+import lombok.EqualsAndHashCode;
 import lombok.Getter;
 
 /**
@@ -14,6 +15,7 @@ import lombok.Getter;
  */
 @Builder
 @Getter
+@EqualsAndHashCode
 public class VoltageLevelMapData {
 
     private String id;

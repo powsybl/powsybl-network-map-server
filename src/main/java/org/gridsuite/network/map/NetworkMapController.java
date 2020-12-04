@@ -6,6 +6,7 @@
  */
 package org.gridsuite.network.map;
 
+import org.gridsuite.network.map.model.AllMapData;
 import org.gridsuite.network.map.model.GeneratorMapData;
 import org.gridsuite.network.map.model.LineMapData;
 import org.gridsuite.network.map.model.SubstationMapData;
@@ -14,11 +15,12 @@ import org.gridsuite.network.map.model.ThreeWindingsTransformerMapData;
 import org.gridsuite.network.map.model.TwoWindingsTransformerMapData;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.ComponentScan;
-import org.springframework.http.MediaType;
 import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 import java.util.UUID;
+
+import static org.springframework.http.MediaType.APPLICATION_JSON_VALUE;
 
 /**
  * @author Geoffroy Jamgotchian <geoffroy.jamgotchian at rte-france.com>
@@ -35,7 +37,7 @@ public class NetworkMapController {
     @Autowired
     private NetworkMapService networkMapService;
 
-    @GetMapping(value = "/substations/{networkUuid}", produces = MediaType.APPLICATION_JSON_VALUE)
+    @GetMapping(value = "/substations/{networkUuid}", produces = APPLICATION_JSON_VALUE)
     @ApiOperation(value = "Get substations description", response = List.class)
     @ApiResponses(value = {@ApiResponse(code = 200, message = "Substations description")})
     public @ResponseBody List<SubstationMapData> getSubstations(@ApiParam(value = "Network UUID") @PathVariable("networkUuid") UUID networkUuid,
@@ -43,7 +45,7 @@ public class NetworkMapController {
         return networkMapService.getSubstations(networkUuid, substationsIds);
     }
 
-    @GetMapping(value = "/lines/{networkUuid}", produces = MediaType.APPLICATION_JSON_VALUE)
+    @GetMapping(value = "/lines/{networkUuid}", produces = APPLICATION_JSON_VALUE)
     @ApiOperation(value = "Get lines description", response = List.class)
     @ApiResponses(value = {@ApiResponse(code = 200, message = "Lines description")})
     public @ResponseBody List<LineMapData> getLines(@ApiParam(value = "Network UUID") @PathVariable("networkUuid") UUID networkUuid,
@@ -51,7 +53,7 @@ public class NetworkMapController {
         return networkMapService.getLines(networkUuid, substationsIds);
     }
 
-    @GetMapping(value = "/generators/{networkUuid}", produces = MediaType.APPLICATION_JSON_VALUE)
+    @GetMapping(value = "/generators/{networkUuid}", produces = APPLICATION_JSON_VALUE)
     @ApiOperation(value = "Get generators description", response = List.class)
     @ApiResponses(value = {@ApiResponse(code = 200, message = "Generators description")})
     public @ResponseBody List<GeneratorMapData> getGenerators(@ApiParam(value = "Network UUID") @PathVariable("networkUuid") UUID networkUuid,
@@ -59,7 +61,7 @@ public class NetworkMapController {
         return networkMapService.getGenerators(networkUuid, substationsIds);
     }
 
-    @GetMapping(value = "/2-windings-transformers/{networkUuid}", produces = MediaType.APPLICATION_JSON_VALUE)
+    @GetMapping(value = "/2-windings-transformers/{networkUuid}", produces = APPLICATION_JSON_VALUE)
     @ApiOperation(value = "Get 2 windings transformers description", response = List.class)
     @ApiResponses(value = {@ApiResponse(code = 200, message = "2 windings transformers description")})
     public @ResponseBody List<TwoWindingsTransformerMapData> getTwoWindingsTransformers(@ApiParam(value = "Network UUID") @PathVariable("networkUuid") UUID networkUuid,
@@ -67,11 +69,19 @@ public class NetworkMapController {
         return networkMapService.getTwoWindingsTransformers(networkUuid, substationsIds);
     }
 
-    @GetMapping(value = "/3-windings-transformers/{networkUuid}", produces = MediaType.APPLICATION_JSON_VALUE)
+    @GetMapping(value = "/3-windings-transformers/{networkUuid}", produces = APPLICATION_JSON_VALUE)
     @ApiOperation(value = "Get 3 windings transformers description", response = List.class)
     @ApiResponses(value = {@ApiResponse(code = 200, message = "3 windings transformers description")})
     public @ResponseBody List<ThreeWindingsTransformerMapData> getThreeWindingsTransformers(@ApiParam(value = "Network UUID") @PathVariable("networkUuid") UUID networkUuid,
                                                                                             @ApiParam(value = "Substations id") @RequestParam(name = "substationId", required = false) List<String> substationsIds) {
         return networkMapService.getThreeWindingsTransformers(networkUuid, substationsIds);
+    }
+
+    @GetMapping(value = "/all/{networkUuid}", produces = APPLICATION_JSON_VALUE)
+    @ApiOperation(value = "Get all equipments descriptions", produces = APPLICATION_JSON_VALUE)
+    @ApiResponses(value = {@ApiResponse(code = 200, message = "all equipments descriptions")})
+    public @ResponseBody AllMapData getAll(@ApiParam(value = "Network UUID") @PathVariable("networkUuid") UUID networkUuid,
+                                                 @ApiParam(value = "Substations id") @RequestParam(name = "substationId", required = false) List<String> substationsIds) {
+        return networkMapService.getAll(networkUuid, substationsIds);
     }
 }

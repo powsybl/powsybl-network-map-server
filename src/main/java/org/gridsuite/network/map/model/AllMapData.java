@@ -6,27 +6,20 @@
  */
 package org.gridsuite.network.map.model;
 
-import com.fasterxml.jackson.annotation.JsonInclude;
 import lombok.Builder;
-import lombok.EqualsAndHashCode;
 import lombok.Getter;
 
 import java.util.List;
 
 /**
- * @author Geoffroy Jamgotchian <geoffroy.jamgotchian at rte-france.com>
+ * @author Franck Lecuyer <franck.lecuyer at rte-france.com>
  */
 @Builder
 @Getter
-@EqualsAndHashCode
-public class SubstationMapData {
-
-    private String id;
-
-    private String name;
-
-    @JsonInclude(JsonInclude.Include.NON_NULL)
-    private String countryName;
-
-    private List<VoltageLevelMapData> voltageLevels;
+public class AllMapData {
+    private List<SubstationMapData> substations;
+    private List<LineMapData> lines;
+    private List<TwoWindingsTransformerMapData> twoWindingsTransformers;
+    private List<ThreeWindingsTransformerMapData> threeWindingsTransformers;
+    private List<GeneratorMapData> generators;
 }
