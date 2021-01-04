@@ -1,0 +1,24 @@
+[
+  {
+    "id": "P1",
+    "name": "P1",
+    "countryName": "FRANCE",
+    "voltageLevels": [
+      {
+        "id": "VLGEN",
+        "name": "VLGEN",
+        "nominalVoltage": 24.0
+      },
+      {
+        "id": "VLHV1",
+        "name": "VLHV1",
+        "nominalVoltage": 380.0
+      },
+      {
+        "id": "VLNEW2",
+        "name": "VLNEW2",
+        "nominalVoltage": 225.0
+      }
+    ]
+  }
+]

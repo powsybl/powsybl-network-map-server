@@ -45,8 +45,8 @@
 
     <properties>
         <java.version>11</java.version>
-
         <gridsuite-dependencies.version>4</gridsuite-dependencies.version>
+        <equalsverifier.version>3.5</equalsverifier.version>
     </properties>
 
     <build>
@@ -166,6 +166,12 @@
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-test</artifactId>
+            <scope>test</scope>
+        </dependency>
+        <dependency>
+            <groupId>nl.jqno.equalsverifier</groupId>
+            <artifactId>equalsverifier</artifactId>
+            <version>${equalsverifier.version}</version>
             <scope>test</scope>
         </dependency>
     </dependencies>
