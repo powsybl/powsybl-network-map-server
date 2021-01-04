@@ -45,8 +45,8 @@
 
     <properties>
         <java.version>11</java.version>
-
         <gridsuite-dependencies.version>4</gridsuite-dependencies.version>
+        <equalsverifier.version>3.5</equalsverifier.version>
     </properties>
 
     <build>
@@ -171,7 +171,7 @@
         <dependency>
             <groupId>nl.jqno.equalsverifier</groupId>
             <artifactId>equalsverifier</artifactId>
-            <version>3.5</version>
+            <version>${equalsverifier.version}</version>
             <scope>test</scope>
         </dependency>
     </dependencies>
