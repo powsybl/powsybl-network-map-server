@@ -7,34 +7,17 @@
 package org.gridsuite.network.map.model;
 
 import com.fasterxml.jackson.annotation.JsonInclude;
-import lombok.Builder;
 import lombok.EqualsAndHashCode;
 import lombok.Getter;
+import lombok.experimental.SuperBuilder;
 
 /**
  * @author Franck Lecuyer <franck.lecuyer at rte-france.com>
  */
-@Builder
+@SuperBuilder
 @Getter
-@EqualsAndHashCode
-public class LccConverterStationMapData {
-
-    private String id;
-
-    private String name;
-
-    private String voltageLevelId;
-
-    private Boolean terminalConnected;
-
-    private String hvdcLineId;
-
-    @JsonInclude(JsonInclude.Include.NON_NULL)
-    private Double p;
-
-    @JsonInclude(JsonInclude.Include.NON_NULL)
-    private Double q;
-
+@EqualsAndHashCode(callSuper = true)
+public class LccConverterStationMapData extends AbstractHvdcConverterStationMapData {
     @JsonInclude(JsonInclude.Include.NON_NULL)
     private Float powerFactor;
 

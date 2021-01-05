@@ -16,8 +16,22 @@ import lombok.experimental.SuperBuilder;
  */
 @SuperBuilder
 @Getter
-@EqualsAndHashCode(callSuper = true)
-public class VscConverterStationMapData extends AbstractHvdcConverterStationMapData {
+@EqualsAndHashCode
+public abstract class AbstractHvdcConverterStationMapData {
+
+    private String id;
+
+    private String name;
+
+    private String voltageLevelId;
+
+    private Boolean terminalConnected;
+
+    private String hvdcLineId;
+
     @JsonInclude(JsonInclude.Include.NON_NULL)
-    private Float lossFactor;
+    private Double p;
+
+    @JsonInclude(JsonInclude.Include.NON_NULL)
+    private Double q;
 }

@@ -516,7 +516,7 @@ class NetworkMapService {
             substationsId.stream().forEach(id -> {
                 Substation substation = network.getSubstation(id);
                 substationsMap.add(toMapData(substation));
-                substation.getVoltageLevelStream().forEach(v -> {
+                substation.getVoltageLevelStream().forEach(v ->
                     v.getConnectables().forEach(c -> {
                         switch (c.getType()) {
                             case LINE:
@@ -547,19 +547,21 @@ class NetworkMapService {
                                 staticVarCompensatorsMap.add(toMapData((StaticVarCompensator) c));
                                 break;
                             case HVDC_CONVERTER_STATION: {
-                                HvdcConverterStation hdvcConverter = (HvdcConverterStation) c;
+                                HvdcConverterStation<?> hdvcConverter = (HvdcConverterStation<?>) c;
                                 HvdcLine hvdcLine = hdvcConverter.getHvdcLine();
                                 if (hvdcLine != null) {
                                     hvdcLinesMap.add(toMapData(hvdcLine));
                                 }
-                                switch (hdvcConverter.getHvdcType()) {
-                                    case LCC: lccConverterStationsMap.add(toMapData((LccConverterStation) hdvcConverter)); break;
-                                    case VSC: vscConverterStationsMap.add(toMapData((VscConverterStation) hdvcConverter)); break;
+                                if (hdvcConverter.getHvdcType() == HvdcConverterStation.HvdcType.LCC) {
+                                    lccConverterStationsMap.add(toMapData((LccConverterStation) hdvcConverter));
+                                } else {
+                                    vscConverterStationsMap.add(toMapData((VscConverterStation) hdvcConverter));
                                 }
                             }
+                            default:
                         }
-                    });
-                });
+                    })
+                );
             });
             return AllMapData.builder()
                     .substations(substationsMap.stream().collect(Collectors.toList()))
