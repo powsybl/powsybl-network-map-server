@@ -28,14 +28,14 @@ public class BatteryMapData {
     private Boolean terminalConnected;
 
     @JsonInclude(JsonInclude.Include.NON_NULL)
-    private Double p;
-
-    @JsonInclude(JsonInclude.Include.NON_NULL)
-    private Double q;
-
-    @JsonInclude(JsonInclude.Include.NON_NULL)
     private Double p0;
 
     @JsonInclude(JsonInclude.Include.NON_NULL)
     private Double q0;
+
+    @JsonInclude(JsonInclude.Include.NON_NULL)
+    private Double p;
+
+    @JsonInclude(JsonInclude.Include.NON_NULL)
+    private Double q;
 }

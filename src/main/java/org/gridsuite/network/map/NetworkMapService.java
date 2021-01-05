@@ -558,6 +558,7 @@ class NetworkMapService {
                                     vscConverterStationsMap.add(toMapData((VscConverterStation) hdvcConverter));
                                 }
                             }
+                            break;
                             default:
                         }
                     })
