@@ -1,5 +1,5 @@
 /**
- * Copyright (c) 2019, RTE (http://www.rte-france.com)
+ * Copyright (c) 2021, RTE (http://www.rte-france.com)
  * This Source Code Form is subject to the terms of the Mozilla Public
  * License, v. 2.0. If a copy of the MPL was not distributed with this
  * file, You can obtain one at http://mozilla.org/MPL/2.0/.
@@ -22,4 +22,12 @@ public class AllMapData {
     private List<TwoWindingsTransformerMapData> twoWindingsTransformers;
     private List<ThreeWindingsTransformerMapData> threeWindingsTransformers;
     private List<GeneratorMapData> generators;
+    private List<BatteryMapData> batteries;
+    private List<DanglingLineMapData> danglingLines;
+    private List<HvdcLineMapData> hvdcLines;
+    private List<LccConverterStationMapData> lccConverterStations;
+    private List<LoadMapData> loads;
+    private List<ShuntCompensatorMapData> shuntCompensators;
+    private List<StaticVarCompensatorMapData> staticVarCompensators;
+    private List<VscConverterStationMapData> vscConverterStations;
 }

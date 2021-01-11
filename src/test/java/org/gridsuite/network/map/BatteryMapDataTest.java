@@ -7,16 +7,16 @@
 package org.gridsuite.network.map;
 
 import nl.jqno.equalsverifier.EqualsVerifier;
-import org.gridsuite.network.map.model.LineMapData;
+import org.gridsuite.network.map.model.BatteryMapData;
 import org.junit.Test;
 
 /**
  * @author Franck Lecuyer <franck.lecuyer at rte-france.com>
  */
-public class LineMapDataTest {
+public class BatteryMapDataTest {
 
     @Test
     public void equalsContract() {
-        EqualsVerifier.simple().forClass(LineMapData.class).verify();
+        EqualsVerifier.simple().forClass(BatteryMapData.class).verify();
     }
 }

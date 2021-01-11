@@ -1,0 +1,10 @@
+[
+  {
+    "id": "HVDC1",
+    "name": "HVDC1",
+    "convertersMode": "SIDE_1_INVERTER_SIDE_2_RECTIFIER",
+    "converterStationId1": "VSC1",
+    "converterStationId2": "LCC2",
+    "activePowerSetpoint": 500.0
+  }
+]

@@ -147,5 +147,151 @@
       "q": 32.0,
       "targetP": 28.0
     }
+  ],
+  "batteries": [
+    {
+      "id": "BATTERY1",
+      "name": "BATTERY1",
+      "voltageLevelId": "VLNEW2",
+      "terminalConnected": false,
+      "p": 50.0,
+      "q": 70.0,
+      "p0": 1.0,
+      "q0": 1.0
+    },
+    {
+      "id": "BATTERY2",
+      "name": "BATTERY2",
+      "voltageLevelId": "VLGEN3",
+      "terminalConnected": false,
+      "p0": 1.0,
+      "q0": 1.0
+    }
+  ],
+  "danglingLines": [
+    {
+      "id": "DL1",
+      "voltageLevelId": "VLGEN",
+      "name": "DL1",
+      "terminalConnected": true,
+      "ucteXnodeCode": "xnode1",
+      "p": 45.0,
+      "q": 75.0,
+      "p0": 50.0,
+      "q0": 30.0
+    },
+    {
+      "id": "DL2",
+      "voltageLevelId": "VLGEN3",
+      "name": "DL2",
+      "terminalConnected": true,
+      "ucteXnodeCode": "xnode1",
+      "p0": 50.0,
+      "q0": 30.0
+    }
+  ],
+  "hvdcLines": [
+    {
+      "id": "HVDC1",
+      "name": "HVDC1",
+      "convertersMode": "SIDE_1_INVERTER_SIDE_2_RECTIFIER",
+      "converterStationId1": "VSC1",
+      "converterStationId2": "LCC2",
+      "activePowerSetpoint": 500.0
+    }
+  ],
+  "lccConverterStations": [
+    {
+      "id": "LCC1",
+      "name": "LCC1",
+      "voltageLevelId": "VLGEN",
+      "terminalConnected": true,
+      "hvdcLineId": null,
+      "powerFactor": 0.5,
+      "lossFactor": 1.0
+    },
+    {
+      "id": "LCC2",
+      "name": "LCC2",
+      "voltageLevelId": "VLNEW2",
+      "terminalConnected": true,
+      "hvdcLineId": "HVDC1",
+      "p": 110.0,
+      "q": 310.0,
+      "powerFactor": 0.5,
+      "lossFactor": 1.0
+    }
+  ],
+  "loads": [
+    {
+      "id": "LOAD",
+      "name": "LOAD",
+      "type": "UNDEFINED",
+      "voltageLevelId": "VLLOAD",
+      "terminalConnected": true,
+      "p0": 600.0,
+      "q0": 200.0
+    }
+  ],
+  "shuntCompensators": [
+    {
+      "id": "SHUNT1",
+      "name": "SHUNT1",
+      "voltageLevelId": "VLNEW2",
+      "terminalConnected": true,
+      "q": 90.0,
+      "targetV": 225.0,
+      "targetDeadband": 10.0
+    },
+    {
+      "id": "SHUNT2",
+      "name": "SHUNT2",
+      "voltageLevelId": "VLGEN3",
+      "terminalConnected": true,
+      "targetV": 225.0,
+      "targetDeadband": 10.0
+    }
+  ],
+  "staticVarCompensators": [
+    {
+      "id": "SVC1",
+      "name": "SVC1",
+      "voltageLevelId": "VLGEN",
+      "terminalConnected": true,
+      "regulationMode": "VOLTAGE",
+      "p": 120.0,
+      "q": 43.0,
+      "voltageSetpoint": 200.0,
+      "reactivePowerSetpoint": 100.0
+    },
+    {
+      "id": "SVC2",
+      "name": "SVC2",
+      "voltageLevelId": "VLNEW2",
+      "terminalConnected": true,
+      "regulationMode": "VOLTAGE",
+      "voltageSetpoint": 200.0,
+      "reactivePowerSetpoint": 100.0
+    }
+  ],
+  "vscConverterStations": [
+    {
+      "id": "VSC1",
+      "name": "VSC1",
+      "voltageLevelId": "VLNEW2",
+      "terminalConnected": true,
+      "hvdcLineId": "HVDC1",
+      "p": 10.0,
+      "q": 30.0,
+      "lossFactor": 1.0
+    },
+    {
+      "id": "VSC2",
+      "name": "VSC2",
+      "voltageLevelId": "VLGEN3",
+      "terminalConnected": true,
+      "hvdcLineId": null,
+      "lossFactor": 1.0
+    }
   ]
 }

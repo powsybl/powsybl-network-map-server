@@ -1,0 +1,22 @@
+[
+  {
+    "id": "SVC1",
+    "name": "SVC1",
+    "voltageLevelId": "VLGEN",
+    "terminalConnected": true,
+    "regulationMode": "VOLTAGE",
+    "p": 120.0,
+    "q": 43.0,
+    "voltageSetpoint": 200.0,
+    "reactivePowerSetpoint": 100.0
+  },
+  {
+    "id": "SVC2",
+    "name": "SVC2",
+    "voltageLevelId": "VLNEW2",
+    "terminalConnected": true,
+    "regulationMode": "VOLTAGE",
+    "voltageSetpoint": 200.0,
+    "reactivePowerSetpoint": 100.0
+  }
+]
