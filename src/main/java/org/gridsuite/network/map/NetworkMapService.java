@@ -8,34 +8,17 @@ package org.gridsuite.network.map;
 
 import com.powsybl.commons.PowsyblException;
 import com.powsybl.iidm.network.*;
-import org.gridsuite.network.map.model.AllMapData;
-import org.gridsuite.network.map.model.BatteryMapData;
-import org.gridsuite.network.map.model.DanglingLineMapData;
-import org.gridsuite.network.map.model.GeneratorMapData;
-import org.gridsuite.network.map.model.HvdcLineMapData;
-import org.gridsuite.network.map.model.LccConverterStationMapData;
-import org.gridsuite.network.map.model.LineMapData;
-import org.gridsuite.network.map.model.LoadMapData;
-import org.gridsuite.network.map.model.ShuntCompensatorMapData;
-import org.gridsuite.network.map.model.StaticVarCompensatorMapData;
-import org.gridsuite.network.map.model.SubstationMapData;
-import org.gridsuite.network.map.model.ThreeWindingsTransformerMapData;
-import org.gridsuite.network.map.model.TwoWindingsTransformerMapData;
-import org.gridsuite.network.map.model.VoltageLevelMapData;
 import com.powsybl.network.store.client.NetworkStoreService;
 import com.powsybl.network.store.client.PreloadingStrategy;
-import org.gridsuite.network.map.model.VscConverterStationMapData;
+import com.powsybl.sld.iidm.extensions.BranchStatus;
+import org.gridsuite.network.map.model.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Service;
 import org.springframework.web.server.ResponseStatusException;
 
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Set;
-import java.util.LinkedHashSet;
-import java.util.UUID;
+import java.util.*;
 import java.util.stream.Collectors;
 
 /**
@@ -110,6 +93,10 @@ class NetworkMapService {
         }
         if (limits2 != null && !Double.isNaN(limits2.getPermanentLimit())) {
             builder.permanentLimit2(limits2.getPermanentLimit());
+        }
+        BranchStatus branchStatus = line.getExtension(BranchStatus.class);
+        if (branchStatus != null) {
+            builder.branchStatus(branchStatus.getStatus().name());
         }
         return builder.build();
     }

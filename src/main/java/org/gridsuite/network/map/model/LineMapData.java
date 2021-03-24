@@ -55,4 +55,7 @@ public class LineMapData {
 
     @JsonInclude(JsonInclude.Include.NON_NULL)
     private Double permanentLimit2;
+
+    @JsonInclude(JsonInclude.Include.NON_NULL)
+    private String branchStatus;
 }
