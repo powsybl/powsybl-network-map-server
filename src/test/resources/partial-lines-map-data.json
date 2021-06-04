@@ -5,6 +5,7 @@
     "voltageLevelId2": "VLGEN3",
     "name": "LINE3",
     "terminal1Connected": true,
-    "terminal2Connected": true
+    "terminal2Connected": true,
+    "branchStatus": "PLANNED_OUTAGE"
   }
 ]

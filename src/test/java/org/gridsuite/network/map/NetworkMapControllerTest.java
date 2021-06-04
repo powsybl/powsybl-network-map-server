@@ -28,6 +28,8 @@ import com.powsybl.iidm.network.VscConverterStation;
 import com.powsybl.iidm.network.test.EurostagTutorialExample1Factory;
 import com.powsybl.network.store.client.NetworkStoreService;
 import com.powsybl.network.store.client.PreloadingStrategy;
+import com.powsybl.sld.iidm.extensions.BranchStatus;
+import com.powsybl.sld.iidm.extensions.BranchStatusAdder;
 import org.junit.Before;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -263,7 +265,7 @@ public class NetworkMapControllerTest {
         vlgen3.getBusBreakerView().newBus()
                 .setId("NGEN3")
                 .add();
-        network.newLine()
+        Line line3 = network.newLine()
                 .setId("LINE3")
                 .setVoltageLevel1("VLGEN")
                 .setBus1("NGEN")
@@ -278,6 +280,7 @@ public class NetworkMapControllerTest {
                 .setG2(0.0)
                 .setB2(386E-6 / 2)
             .add();
+        line3.newExtension(BranchStatusAdder.class).withStatus(BranchStatus.Status.PLANNED_OUTAGE).add();
 
         Battery b1 = vlnew2.newBattery()
                 .setId("BATTERY1")
