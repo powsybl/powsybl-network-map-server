@@ -45,7 +45,7 @@
 
     <properties>
         <java.version>11</java.version>
-        <gridsuite-dependencies.version>6</gridsuite-dependencies.version>
+        <gridsuite-dependencies.version>7</gridsuite-dependencies.version>
         <equalsverifier.version>3.5</equalsverifier.version>
     </properties>
 
