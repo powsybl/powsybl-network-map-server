@@ -17,6 +17,15 @@
     "permanentLimit1": 25.0,
     "permanentLimit3": 54.0,
     "ratioTapChanger2Position": 2,
-    "phaseTapChanger1Position": 1
+    "phaseTapChanger1Position": 1,
+    "phaseTapChanger1" : {
+      "lowTap": 0,
+      "highTap": 2
+    },
+    "ratioTapChanger2" : {
+      "lowTap": 0,
+      "highTap": 2
+    }
+
   }
 ]

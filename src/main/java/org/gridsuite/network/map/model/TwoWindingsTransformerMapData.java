@@ -60,4 +60,10 @@ public class TwoWindingsTransformerMapData {
 
     @JsonInclude(JsonInclude.Include.NON_NULL)
     private Integer phaseTapChangerPosition;
+
+    @JsonInclude(JsonInclude.Include.NON_NULL)
+    private TapChangerData phaseTapChanger;
+
+    @JsonInclude(JsonInclude.Include.NON_NULL)
+    private TapChangerData ratioTapChanger;
 }

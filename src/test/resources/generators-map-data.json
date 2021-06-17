@@ -6,6 +6,8 @@
     "terminalConnected": true,
     "p": 25,
     "q": 32,
-    "targetP": 28
+    "targetP": 28,
+    "maxP" : 9999.99,
+    "minP" : -9999.99
   }
 ]

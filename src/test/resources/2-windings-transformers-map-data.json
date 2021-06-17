@@ -12,7 +12,11 @@
     "q2": 14.44,
     "permanentLimit1": 750.4,
     "permanentLimit2": 780.6,
-    "phaseTapChangerPosition": 1
+    "phaseTapChangerPosition": 1,
+    "phaseTapChanger": {
+      "lowTap": 0,
+      "highTap": 1
+    }
   },
   {
     "id": "NHV2_NLOAD",
@@ -27,6 +31,11 @@
     "q2": 8.88,
     "permanentLimit1": 900.5,
     "permanentLimit2": 950.5,
-    "ratioTapChangerPosition": 2
+    "ratioTapChangerPosition": 2,
+    "ratioTapChanger": {
+      "lowTap": 0,
+      "highTap": 2
+    }
+
   }
 ]

@@ -88,4 +88,24 @@ public class ThreeWindingsTransformerMapData {
 
     @JsonInclude(JsonInclude.Include.NON_NULL)
     private Integer phaseTapChanger3Position;
+
+    @JsonInclude(JsonInclude.Include.NON_NULL)
+    private TapChangerData phaseTapChanger1;
+
+    @JsonInclude(JsonInclude.Include.NON_NULL)
+    private TapChangerData ratioTapChanger1;
+
+    @JsonInclude(JsonInclude.Include.NON_NULL)
+    private TapChangerData phaseTapChanger2;
+
+    @JsonInclude(JsonInclude.Include.NON_NULL)
+    private TapChangerData ratioTapChanger2;
+
+    @JsonInclude(JsonInclude.Include.NON_NULL)
+    private TapChangerData phaseTapChanger3;
+
+    @JsonInclude(JsonInclude.Include.NON_NULL)
+    private TapChangerData ratioTapChanger3;
+
+
 }

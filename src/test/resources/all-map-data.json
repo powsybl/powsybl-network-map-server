@@ -98,7 +98,11 @@
       "q2": 14.44,
       "permanentLimit1": 750.4,
       "permanentLimit2": 780.6,
-      "phaseTapChangerPosition": 1
+      "phaseTapChangerPosition": 1,
+      "phaseTapChanger": {
+        "highTap": 1,
+        "lowTap": 0
+      }
     },
     {
       "id": "NHV2_NLOAD",
@@ -113,7 +117,11 @@
       "q2": 8.88,
       "permanentLimit1": 900.5,
       "permanentLimit2": 950.5,
-      "ratioTapChangerPosition": 2
+      "ratioTapChangerPosition": 2,
+      "ratioTapChanger": {
+        "highTap": 2,
+        "lowTap": 0
+      }
     }
   ],
   "threeWindingsTransformers": [
@@ -135,7 +143,15 @@
       "permanentLimit1": 25.0,
       "permanentLimit3": 54.0,
       "ratioTapChanger2Position": 2,
-      "phaseTapChanger1Position": 1
+      "phaseTapChanger1Position": 1,
+      "ratioTapChanger2": {
+        "highTap": 2,
+        "lowTap": 0
+      },
+      "phaseTapChanger1": {
+        "highTap": 2,
+        "lowTap": 0
+      }
     }
   ],
   "generators": [
@@ -146,7 +162,9 @@
       "terminalConnected": true,
       "p": 25.0,
       "q": 32.0,
-      "targetP": 28.0
+      "targetP": 28.0,
+      "minP" : -9999.99,
+      "maxP" : 9999.99
     }
   ],
   "batteries": [

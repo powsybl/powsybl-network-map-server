@@ -35,4 +35,9 @@ public class GeneratorMapData {
 
     @JsonInclude(JsonInclude.Include.NON_NULL)
     private Double targetP;
+
+    private Double minP;
+
+    private Double maxP;
+
 }
