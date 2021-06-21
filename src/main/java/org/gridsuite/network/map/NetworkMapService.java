@@ -169,10 +169,10 @@ class NetworkMapService {
         return builder.build();
     }
 
-    private static TapChangerData toMapData(TapChanger<?, ?> phaseTapChanger) {
-        return phaseTapChanger == null ? null : TapChangerData.builder()
-            .lowTap(phaseTapChanger.getLowTapPosition())
-            .highTap(phaseTapChanger.getHighTapPosition())
+    private static TapChangerData toMapData(TapChanger<?, ?> tapChanger) {
+        return tapChanger == null ? null : TapChangerData.builder()
+            .lowTap(tapChanger.getLowTapPosition())
+            .highTap(tapChanger.getHighTapPosition())
             .build();
     }
 
