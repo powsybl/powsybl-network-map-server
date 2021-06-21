@@ -45,6 +45,7 @@ import org.springframework.test.web.servlet.MockMvc;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.util.UUID;
+import java.util.function.Function;
 
 import static org.mockito.BDDMockito.given;
 import static org.springframework.test.web.servlet.request.MockMvcRequestBuilders.get;
@@ -140,116 +141,9 @@ public class NetworkMapControllerTest {
                 .setId("NNEW2")
             .add();
 
-        ThreeWindingsTransformer threeWindingsTransformer = p1.newThreeWindingsTransformer()
-                .setId("TWT")
-                .setName("TWT")
-                .setRatedU0(234)
-                .newLeg1()
-                .setVoltageLevel("VLHV1")
-                .setBus("NHV1")
-                .setR(45)
-                .setX(35)
-                .setG(25)
-                .setB(15)
-                .setRatedU(5)
-                .add()
-                .newLeg2()
-                .setVoltageLevel("VLNEW2")
-                .setBus("NNEW2")
-                .setR(47)
-                .setX(37)
-                .setG(27)
-                .setB(17)
-                .setRatedU(7)
-                .add()
-                .newLeg3()
-                .setVoltageLevel("VLGEN")
-                .setBus("NGEN")
-                .setR(49)
-                .setX(39)
-                .setG(29)
-                .setB(19)
-                .setRatedU(9)
-                .add()
-                .add();
-        threeWindingsTransformer.getTerminal(ThreeWindingsTransformer.Side.ONE).setP(375);
-        threeWindingsTransformer.getTerminal(ThreeWindingsTransformer.Side.TWO).setP(225);
-        threeWindingsTransformer.getTerminal(ThreeWindingsTransformer.Side.THREE).setP(200);
-        threeWindingsTransformer.getTerminal(ThreeWindingsTransformer.Side.ONE).setQ(48);
-        threeWindingsTransformer.getTerminal(ThreeWindingsTransformer.Side.TWO).setQ(28);
-        threeWindingsTransformer.getTerminal(ThreeWindingsTransformer.Side.THREE).setQ(18);
-
-        threeWindingsTransformer.getLeg1().newPhaseTapChanger()
-                .setLowTapPosition(0)
-                .setTapPosition(1)
-                .setRegulating(true)
-                .setRegulationMode(PhaseTapChanger.RegulationMode.CURRENT_LIMITER)
-                .setRegulationValue(25)
-                .setRegulationTerminal(threeWindingsTransformer.getTerminal(ThreeWindingsTransformer.Side.ONE))
-                .setTargetDeadband(22)
-                .beginStep()
-                .setAlpha(-10)
-                .setRho(0.99)
-                .setR(1.)
-                .setX(4.)
-                .setG(0.5)
-                .setB(1.5)
-                .endStep()
-                .beginStep()
-                .setAlpha(0)
-                .setRho(1)
-                .setR(1.1)
-                .setX(4.1)
-                .setG(0.6)
-                .setB(1.6)
-                .endStep()
-                .beginStep()
-                .setAlpha(10)
-                .setRho(1.01)
-                .setR(1.2)
-                .setX(4.2)
-                .setG(0.7)
-                .setB(1.7)
-                .endStep()
-                .add();
-        threeWindingsTransformer.getLeg2().newRatioTapChanger()
-                .setLowTapPosition(0)
-                .setTapPosition(2)
-                .setRegulating(false)
-                .setRegulationTerminal(threeWindingsTransformer.getTerminal(ThreeWindingsTransformer.Side.ONE))
-                .setTargetDeadband(22)
-                .setTargetV(220)
-                .beginStep()
-                .setRho(0.99)
-                .setR(1.)
-                .setX(4.)
-                .setG(0.5)
-                .setB(1.5)
-                .endStep()
-                .beginStep()
-                .setRho(1)
-                .setR(1.1)
-                .setX(4.1)
-                .setG(0.6)
-                .setB(1.6)
-                .endStep()
-                .beginStep()
-                .setRho(1.01)
-                .setR(1.2)
-                .setX(4.2)
-                .setG(0.7)
-                .setB(1.7)
-                .endStep()
-                .add();
-
-        threeWindingsTransformer.getLeg1()
-                .newCurrentLimits()
-                .setPermanentLimit(25)
-                .add();
-        threeWindingsTransformer.getLeg3()
-                .newCurrentLimits()
-                .setPermanentLimit(54)
-                .add();
+        make3WindingsTransformer(p1, "TWT", ThreeWindingsTransformer::getLeg2, ThreeWindingsTransformer::getLeg1);
+        make3WindingsTransformer(p1, "TWT32", ThreeWindingsTransformer::getLeg3, ThreeWindingsTransformer::getLeg2);
+        make3WindingsTransformer(p1, "TWT13", ThreeWindingsTransformer::getLeg1, ThreeWindingsTransformer::getLeg3);
 
         Substation p3 = network.newSubstation()
                 .setId("P3")
@@ -454,6 +348,122 @@ public class NetworkMapControllerTest {
         given(networkStoreService.getNetwork(NETWORK_UUID, PreloadingStrategy.NONE)).willReturn(network);
         given(networkStoreService.getNetwork(NOT_FOUND_NETWORK_ID, PreloadingStrategy.COLLECTION)).willThrow(new PowsyblException("Network " + NOT_FOUND_NETWORK_ID + " not found"));
         given(networkStoreService.getNetwork(NOT_FOUND_NETWORK_ID, PreloadingStrategy.NONE)).willThrow(new PowsyblException("Network " + NOT_FOUND_NETWORK_ID + " not found"));
+    }
+
+    private void make3WindingsTransformer(Substation p1, String id,
+                                          Function<ThreeWindingsTransformer, ThreeWindingsTransformer.Leg> getPhaseLeg,
+                                          Function<ThreeWindingsTransformer, ThreeWindingsTransformer.Leg> getRatioLeg
+    ) {
+        ThreeWindingsTransformer threeWindingsTransformer = p1.newThreeWindingsTransformer()
+                .setId(id)
+                .setName(id)
+                .setRatedU0(234)
+                .newLeg1()
+                .setVoltageLevel("VLHV1")
+                .setBus("NHV1")
+                .setR(45)
+                .setX(35)
+                .setG(25)
+                .setB(15)
+                .setRatedU(5)
+                .add()
+                .newLeg2()
+                .setVoltageLevel("VLNEW2")
+                .setBus("NNEW2")
+                .setR(47)
+                .setX(37)
+                .setG(27)
+                .setB(17)
+                .setRatedU(7)
+                .add()
+                .newLeg3()
+                .setVoltageLevel("VLGEN")
+                .setBus("NGEN")
+                .setR(49)
+                .setX(39)
+                .setG(29)
+                .setB(19)
+                .setRatedU(9)
+                .add()
+                .add();
+        threeWindingsTransformer.getTerminal(ThreeWindingsTransformer.Side.ONE).setP(375);
+        threeWindingsTransformer.getTerminal(ThreeWindingsTransformer.Side.TWO).setP(225);
+        threeWindingsTransformer.getTerminal(ThreeWindingsTransformer.Side.THREE).setP(200);
+        threeWindingsTransformer.getTerminal(ThreeWindingsTransformer.Side.ONE).setQ(48);
+        threeWindingsTransformer.getTerminal(ThreeWindingsTransformer.Side.TWO).setQ(28);
+        threeWindingsTransformer.getTerminal(ThreeWindingsTransformer.Side.THREE).setQ(18);
+
+        getPhaseLeg.apply(threeWindingsTransformer).newPhaseTapChanger()
+                .setLowTapPosition(0)
+                .setTapPosition(1)
+                .setRegulating(true)
+                .setRegulationMode(PhaseTapChanger.RegulationMode.CURRENT_LIMITER)
+                .setRegulationValue(25)
+                .setRegulationTerminal(threeWindingsTransformer.getTerminal(ThreeWindingsTransformer.Side.ONE))
+                .setTargetDeadband(22)
+                .beginStep()
+                .setAlpha(-10)
+                .setRho(0.99)
+                .setR(1.)
+                .setX(4.)
+                .setG(0.5)
+                .setB(1.5)
+                .endStep()
+                .beginStep()
+                .setAlpha(0)
+                .setRho(1)
+                .setR(1.1)
+                .setX(4.1)
+                .setG(0.6)
+                .setB(1.6)
+                .endStep()
+                .beginStep()
+                .setAlpha(10)
+                .setRho(1.01)
+                .setR(1.2)
+                .setX(4.2)
+                .setG(0.7)
+                .setB(1.7)
+                .endStep()
+                .add();
+        getRatioLeg.apply(threeWindingsTransformer).newRatioTapChanger()
+                .setLowTapPosition(0)
+                .setTapPosition(2)
+                .setRegulating(false)
+                .setRegulationTerminal(threeWindingsTransformer.getTerminal(ThreeWindingsTransformer.Side.ONE))
+                .setTargetDeadband(22)
+                .setTargetV(220)
+                .beginStep()
+                .setRho(0.99)
+                .setR(1.)
+                .setX(4.)
+                .setG(0.5)
+                .setB(1.5)
+                .endStep()
+                .beginStep()
+                .setRho(1)
+                .setR(1.1)
+                .setX(4.1)
+                .setG(0.6)
+                .setB(1.6)
+                .endStep()
+                .beginStep()
+                .setRho(1.01)
+                .setR(1.2)
+                .setX(4.2)
+                .setG(0.7)
+                .setB(1.7)
+                .endStep()
+                .add();
+
+        threeWindingsTransformer.getLeg1()
+                .newCurrentLimits()
+                .setPermanentLimit(25)
+                .add();
+        threeWindingsTransformer.getLeg3()
+                .newCurrentLimits()
+                .setPermanentLimit(54)
+                .add();
     }
 
     private String resourceToString(String resource) throws IOException {
