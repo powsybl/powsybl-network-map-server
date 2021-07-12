@@ -12,6 +12,10 @@
     "q2": 14.44,
     "permanentLimit1": 750.4,
     "permanentLimit2": 780.6,
-    "phaseTapChangerPosition": 1
+    "phaseTapChangerPosition": 1,
+    "phaseTapChanger": {
+      "lowTap": 0,
+      "highTap": 1
+    }
   }
 ]
