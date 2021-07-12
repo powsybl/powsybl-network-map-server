@@ -16,71 +16,71 @@
     "q3": 18.0,
     "permanentLimit1": 25.0,
     "permanentLimit3": 54.0,
+    "ratioTapChanger3Position": 2,
+    "phaseTapChanger1Position": 1,
+    "phaseTapChanger1": {
+      "lowTap": 0,
+      "highTap": 2
+    },
+    "ratioTapChanger3": {
+      "lowTap": 0,
+      "highTap": 2
+    }
+  },
+  {
+    "id": "TWT21",
+    "voltageLevelId1": "VLHV1",
+    "voltageLevelId2": "VLNEW2",
+    "voltageLevelId3": "VLGEN",
+    "name": "TWT21",
+    "terminal1Connected": true,
+    "terminal2Connected": true,
+    "terminal3Connected": true,
+    "p1": 375.0,
+    "q1": 48.0,
+    "p2": 225.0,
+    "q2": 28.0,
+    "p3": 200.0,
+    "q3": 18.0,
+    "permanentLimit1": 54.0,
+    "permanentLimit2": 25.0,
     "ratioTapChanger1Position": 2,
     "phaseTapChanger2Position": 1,
-    "ratioTapChanger1" : {
+    "ratioTapChanger1": {
       "lowTap": 0,
       "highTap": 2
     },
-    "phaseTapChanger2":{
+    "phaseTapChanger2": {
       "lowTap": 0,
       "highTap": 2
     }
   },
   {
-    "id":"TWT32",
-    "voltageLevelId1":"VLHV1",
-    "voltageLevelId2":"VLNEW2",
-    "voltageLevelId3":"VLGEN",
-    "name":"TWT32",
-    "terminal1Connected":true,
-    "terminal2Connected":true,
-    "terminal3Connected":true,
-    "p1":375.0,
-    "q1":48.0,
-    "p2":225.0,
-    "q2":28.0,
-    "p3":200.0,
-    "q3":18.0,
-    "permanentLimit1":25.0,
-    "permanentLimit3":54.0,
-    "ratioTapChanger2Position":2,
-    "phaseTapChanger3Position":1,
-    "ratioTapChanger2":{
-      "lowTap":0,
-      "highTap":2
+    "id": "TWT32",
+    "voltageLevelId1": "VLHV1",
+    "voltageLevelId2": "VLNEW2",
+    "voltageLevelId3": "VLGEN",
+    "name": "TWT32",
+    "terminal1Connected": true,
+    "terminal2Connected": true,
+    "terminal3Connected": true,
+    "p1": 375.0,
+    "q1": 48.0,
+    "p2": 225.0,
+    "q2": 28.0,
+    "p3": 200.0,
+    "q3": 18.0,
+    "permanentLimit2": 54.0,
+    "permanentLimit3": 25.0,
+    "ratioTapChanger2Position": 2,
+    "phaseTapChanger3Position": 1,
+    "ratioTapChanger2": {
+      "lowTap": 0,
+      "highTap": 2
     },
-    "phaseTapChanger3":{
-      "lowTap":0,
-      "highTap":2
-    }
-  },
-  {
-    "id":"TWT13",
-    "voltageLevelId1":"VLHV1",
-    "voltageLevelId2":"VLNEW2",
-    "voltageLevelId3":"VLGEN",
-    "name":"TWT13",
-    "terminal1Connected":true,
-    "terminal2Connected":true,
-    "terminal3Connected":true,
-    "p1":375.0,
-    "q1":48.0,
-    "p2":225.0,
-    "q2":28.0,
-    "p3":200.0,
-    "q3":18.0,
-    "permanentLimit1":25.0,
-    "permanentLimit3":54.0,
-    "ratioTapChanger3Position":2,
-    "phaseTapChanger1Position":1,
-    "phaseTapChanger1":{
-      "lowTap":0,
-      "highTap":2
-    },
-    "ratioTapChanger3":{
-      "lowTap":0,
-      "highTap":2
+    "phaseTapChanger3": {
+      "lowTap": 0,
+      "highTap": 2
     }
   }
 ]

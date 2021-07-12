@@ -141,9 +141,9 @@ public class NetworkMapControllerTest {
                 .setId("NNEW2")
             .add();
 
-        make3WindingsTransformer(p1, "TWT", ThreeWindingsTransformer::getLeg2, ThreeWindingsTransformer::getLeg1);
+        make3WindingsTransformer(p1, "TWT", ThreeWindingsTransformer::getLeg1, ThreeWindingsTransformer::getLeg3);
+        make3WindingsTransformer(p1, "TWT21", ThreeWindingsTransformer::getLeg2, ThreeWindingsTransformer::getLeg1);
         make3WindingsTransformer(p1, "TWT32", ThreeWindingsTransformer::getLeg3, ThreeWindingsTransformer::getLeg2);
-        make3WindingsTransformer(p1, "TWT13", ThreeWindingsTransformer::getLeg1, ThreeWindingsTransformer::getLeg3);
 
         Substation p3 = network.newSubstation()
                 .setId("P3")
@@ -456,11 +456,11 @@ public class NetworkMapControllerTest {
                 .endStep()
                 .add();
 
-        threeWindingsTransformer.getLeg1()
+        getPhaseLeg.apply(threeWindingsTransformer)
                 .newCurrentLimits()
                 .setPermanentLimit(25)
                 .add();
-        threeWindingsTransformer.getLeg3()
+        getRatioLeg.apply(threeWindingsTransformer)
                 .newCurrentLimits()
                 .setPermanentLimit(54)
                 .add();
